@@ -1,0 +1,113 @@
+:root {
+    --backgorund-color: #d8caca;
+    --background-color-main: #4582f3;
+    --background-color-top: #eba78a;
+    --text-color-primary: #121212;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 130vh;
+    width: 600px;
+    margin: 0 auto;
+    background-color: var(--background-color-main);
+    border: 2px solid var(--text-color-primary);
+    padding: 10px;
+    border-radius: 4%;
+}
+
+.profile-picture {
+    align-items: center;
+    display: flex;
+    justify-self: center;
+    margin-top: 25px;
+    border-radius: 75%;
+    overflow: hidden;
+}
+
+li {
+    list-style-type: none;
+    padding: 5px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 50px;
+    height: 50px;
+    width: auto;
+    background-color: var(--background-color-top);
+    border-bottom: 3px solid var(--text-color-primary);
+}
+
+header nav {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    font-weight: bold   ;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 30px;
+    padding: 0;
+}
+
+.skills-list li {
+    flex: 1 1 220px;
+    list-style-position: inside;
+}
+
+h2 p,
+h2 li {
+    font-weight: normal;
+}
+
+.skills-list p {
+    margin: 4px 0 0 0;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color-primary);
+}
+
+img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+}
+
+#info-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+ol li {
+    list-style: disc;
+}
+
+#info-section .icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}

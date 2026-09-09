@@ -1,0 +1,42 @@
+:root {
+    --top-page-color_1: #5e4b56;
+    --top-page-color_2: #a690a4;
+}
+
+body {
+    margin: 0;
+}
+
+.icons {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    display: block;
+}
+
+.top-section {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+}   
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 50px;
+    height: 75px;
+    width: auto;
+    background-image: linear-gradient(to right, var(--top-page-color_1), var(--top-page-color_2));
+    border-bottom: 3px solid var(--text-color-primary);
+}
+
+
+nav {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    gap: 25px;
+}
+
