@@ -14,7 +14,7 @@
                     <img class='top-section' src="../Assets/home-section.png" alt="Home">
                 </a>
                 <a href="#introduction-section">
-                    <img src="../Assets/">
+                    <img class='top-section' src="../Assets/introduction-button.png" alt="Intro">
                 </a>
                 <a href="#contact">
                     <img class='top-section' src="../Assets/info-section.png" alt="Info">
@@ -23,60 +23,87 @@
         </header>
         <main>
             <section id="home-section" class="blog-section">
-                <h1>
-                    Welcome to My Blog!!
+                <h1 class="title-blog">
+                    Welcome to My Website!!
                 </h1>
-                <article class="card">
-                    <h2>
-                        Mengenal HTML Semantik
-                    </h2>
-                    <p>
-                        <time datetime="2026-09-08">8 September 2026</time>
-                    </p>
-                    <p>
-                        HTML Semantik Membantu...
-                    </p>
-                </article>
-                <article class="card">
-                    <h2>
-                        Dasar CSS Responsif...
-                    </h2>
-                    <p>
-                        <time datetime="2026-09-09">9 September 2026</time>
-                    </p>
-                    <p>
-                        Pembuatan CSS Responsif mendasar
-                    </p>
-                </article>
+                <div class="card-group">
+                    <article class="card">
+                        <h2>
+                            Mengenal HTML Semantik
+                        </h2>
+                        <p>
+                            <time datetime="2026-09-08">8 September 2026</time>
+                        </p>
+                        <p>
+                            HTML Semantik Membantu mendefinisikan 
+                            sebuah elemen yang dibuat dan sangat membantu 
+                            mesin pencarian dalam
+                            mencari bagian-bagian web, Contoh: 
+                        </p>
+                        <ul>
+                            <li>Mencari Bagian tag yaitu nav</li>
+                            <li>Mengerti bagian konten dari web</li>
+                            <li>Memudahkan tools yang dipakai</li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h2>
+                            Dasar CSS Responsif...
+                        </h2>
+                        <p>
+                            <time datetime="2026-09-09">9 September 2026</time>
+                        </p>
+                        <p>
+                            Pembuatan CSS Responsif mendasar pada sebuah website
+                            yang bisa menscaling sesuai device yang dipakai serta
+                            ukuran browser sehingga web sendiri bisa dilihat
+                            tanpa obstruksi-obstruksi sekalipun
+                        </p>
+                    </article>
+                </div>
             </section>
             <section id="introduction-section" class="introduction-section">
-                <h1>
-                    Edgar Hansel Dharmawan
-                </h1>
-                <p>
-                    Saya adalah Seorang Mahasiswa Sanata Dharma menjalani kelas Pemrograman Berbasis Web.
-                    Untuk semester selanjutnya Saya akan mengambil peminatan jaringan dan sistem developer.
-                    Sekarang lagi mulai pembelajaran Game Dev dan Sistem Developer 
-                </p>
+                <h2 class="section-title-intro">
+                    Tentang Saya
+                </h2>
+                <div class="intro-section-group">
+                    <div class="photo-intro">
+                        <img src="../Assets/ProfilePicture.png" alt="Image Not Found">
+                    </div>
+                    <article class="card intro-card">
+                        <h2>
+                            Edgar Hansel Dharmawan
+                        </h2>
+                        <p>
+                            Saya adalah Seorang Mahasiswa Sanata Dharma menjalani kelas Pemrograman Berbasis Web.
+                            Untuk semester selanjutnya Saya akan mengambil peminatan jaringan dan sistem developer.
+                            Sekarang lagi mulai pembelajaran Game Dev dan Sistem Developer. Coming Soon
+                        </p>
+                    </article>
+                </div>
             </section>
-            <aside id="contact">
-                <p>
-                   <strong> Pengen Tahu!? Hubungi Saya: </strong>
-                </p>
-                <a href="mailto:edgarhanseld@gmail.com">
-                    <img class="icons" src="../Assets/gmail.png" alt="G-mail">
-                </a>
-                <a href="https://www.instagram.com/el1tion/">
-                    <img class="icons" src="../Assets/el1tion_qr.png" alt="Instagram">
-                </a>
-                <a href="https://github.com/Elition1">
-                    <img class="icons" src="../Assets/GitHubIcon.png" alt="GitHub">
-                </a>
+            <aside id="contact" class="aside-call">
+                <div class="contact-group">
+                    <p>
+                        <strong>Pengen Tahu!? Hubungi Saya:</strong>
+                    </p>
+                    <div class="contact-icons">
+                        <a href="mailto:edgarhanseld@gmail.com">
+                            <img class="icons" src="../Assets/gmail.png" alt="G-mail">
+                        </a>
+                        <a href="https://www.instagram.com/el1tion/">
+                            <img class="icons" src="../Assets/el1tion_qr.png" alt="Instagram">
+                        </a>
+                        <a href="https://github.com/Elition1">
+                            <img class="icons" src="../Assets/GitHubIcon.png" alt="GitHub">
+                        </a>
+                    </div>
+                </div>
             </aside>
         </main>
         <footer>
             <small>
-                @Copyright
+                @2026 Edgar. All rights reserved.
             </small>
         </footer>
         <script src="../BackEnd/script.js" async defer></script>

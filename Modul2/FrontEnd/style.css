@@ -1,11 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
     --top-page-color_1: #5e4b56;
     --top-page-color_2: #a690a4;
+    --home-section_1: #4077dc;
+    --home-section_2: #c17ebb;
+    --intro-section_1: #3f67b1;
+    --intro-section_2: #e05cd5;
+    --aside-section_1: #5082df;
+    --border: #000000;
 }
 
 body {
+    font-family: "Roboto", sans-serif;
     margin: 0;
 }
+
+.title-blog {
+    padding-left: 60px;
+}
+
+.card-group {
+    margin: 10;
+    display: flex;
+    align-items: start;
+    justify-content: left;
+    gap: 30px;
+    padding-left: 50px;
+}
+
+.card {
+    display: flexbox;
+    justify-content: left;
+    align-items: start;
+    border: 3px solid var(--border);
+    padding: 20px;
+    height: 350px;
+    width: 300px;
+    background: #4077dc;
+    border-radius: 20%;
+}
+
+.blog-section {
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(
+        to right, 
+        var(--home-section_1), 
+        var(--home-section_2), 
+        transparent
+        ), 
+        url('../Assets/Yisang.png');
+    background-size: contain;
+    background-repeat: repeat, no-repeat;
+    background-position: right;
+    border-bottom: 3px solid var(--border);
+}
+
 
 .icons {
     width: 100px;
@@ -19,19 +71,22 @@ body {
     height: 60px;
     object-fit: contain;
     display: block;
+    border-radius: 50px;
 }   
 
 header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
     display: flex;
     align-items: center;
     padding: 15px;
     gap: 50px;
-    height: 75px;
+    height: 65px;
     width: auto;
     background-image: linear-gradient(to right, var(--top-page-color_1), var(--top-page-color_2));
-    border-bottom: 3px solid var(--text-color-primary);
+    border-bottom: 3px solid var(--border);
 }
-
 
 nav {
     align-items: center;
@@ -40,3 +95,84 @@ nav {
     gap: 25px;
 }
 
+.introduction-section {
+    border-bottom: 3px solid var(--border);
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: linear-gradient(to right, var(--intro-section_1), var(--intro-section_2));
+}
+
+.intro-section-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.intro-card {
+    display: flex;
+    flex-direction: column;   
+    justify-content: center;
+    align-items: center;
+    border: 3px solid var(--border);
+    padding: 20px;
+    height: 150px;
+    width: 600px;
+    background: #4077dc;
+    border-radius: 10%;
+}
+
+.photo-intro {
+    width: 200px;      
+    height: 250px;
+    flex-shrink: 0; 
+    border: 3px solid var(--border);
+    border-radius: 50%;
+}
+
+.photo-intro img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+    border-radius: 50%; 
+}
+
+.aside-call {   
+    background-color: var(--aside-section_1);
+    height: 20vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer {
+    background-color: var(--aside-section_1);
+}
+
+.contact-group {
+    display: flex;
+    flex-direction: column;   
+    align-items: center;
+    justify-content: center;
+    gap: 15px;               
+}
+
+.contact-icons {
+    display: flex;
+    flex-direction: row;      
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.section-title-intro {
+    padding-right: 200px;
+}
