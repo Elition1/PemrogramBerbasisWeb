@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div class="nameForm">
+            <label>
+                NAME :
+            </label>
+            <input type="text" class="name" id="name">
+        </div>
+
+        <div class="passForm">
+            <label>
+                PASSWORD :
+            </label>
+            <input type="text" class="pass" id="pass">
+        </div>
+
+        <button onclick="isCorrect()">
+            SEND
+        </button>
+        <br>
+        <br>
+        <div class="nameForm">
+            <label>
+                NAME :
+            </label>
+            <input type="text" class="name_1" id="name_1">
+        </div>
+
+        <div class="passForm">
+            <label>
+                PASSWORD :
+            </label>
+            <input type="text" class="pass_1" id="pass_1">
+        </div>
+
+        <div>
+            <button onclick=changePassword()>
+                SEND
+            </button>
+            <button class="change-password">
+                CHANGE PASSWORD
+            </button>
+        </div>
+        
+        <script>
+            const userPass = "MHS001";
+            const passWord = "BasisA";
+
+            function isCorrect()
+            {
+                let name = document.getElementById('name').value;
+                let pass = document.getElementById('pass').value;
+
+                if (name.length == 0)
+                {
+                    alert("NAMA TIDAK BOLEH KOSONG")   
+                    return;
+                }
+                
+                if (pass.length === 0)
+                {
+                    alert("PASSWORD TIDAK BOLEH KOSONG")
+                    return   
+                }
+                const alpjh = "abcde";
+                
+                if (name.length > 6)
+                {
+                    alert('NAME IS TOO LONG');   
+                }
+
+                else if (name.length < 6 && name.length > 0)
+                {
+                    alert('NAME IS TOO SHORT')
+                }
+                
+                if ((pass.length < 6 || pass.length > 8) && pass.length > 0 )
+                {
+                    alert('PASSWORD HAVE TO BE 6-8 CHARACTERS');    
+                }
+                
+                if (name !== userPass && pass !== passWord)
+                {
+                    alert("LOGIN GAGAL, PASSWORD ATAU NAMA SALAH")
+                }
+                else if (name === userPass && pass === passWord)
+                {
+                    alert("LOGIN BERHASIL")
+                }
+            }
+
+            function changePassword()
+            {
+                let name = document.getElementById('name_1').value;
+                let pass = document.getElementById('pass_1').value;
+                let wrong = false;
+
+                if (!wrong)
+                {
+                    alert("BELUM MASUKKAN PASSWORD");   
+                }
+                else
+                {
+                    if(passWord === pass)
+                    {
+                        alert("PASSWORD TIDAK BOLEH SAMA DENGAN")
+                    }
+                }
+
+                if (name.length <= 6 || name.length >= 8)
+                {
+                    alert("NAME IS TOO LONG OR TOO SHORT")   
+                }
+
+                if (pass.length < 8)
+                {
+                    alert("PASSWORD IS TOO SHORT");
+                    return;
+                }
+
+                if (pass.length > 8 && pass !== passWord)
+                {
+                    wrong = true;
+                }
+            
+            }
+        </script>
+    </body>
+</html>

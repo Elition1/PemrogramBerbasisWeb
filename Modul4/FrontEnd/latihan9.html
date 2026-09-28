@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Belajar Javascript Platform </title>
+</head>
+<body>
+    <h1>
+        Belajar Javascript
+    </h1>
+    <div id="hasil">
+
+    </div>    
+    <script>
+        var warna = "merah";
+        switch (warna) {
+            case "hitam":
+                var teks = "warna hitam";
+                break;
+            case "merah":
+                var teks = "Warna merah";
+                break;
+            case "hijau":
+                var teks = "Warna hijau";
+                break;
+            default:
+                teks = "Warna tidak terdeteksi";
+        }
+
+        document.getElementById("hasil").innerHTML = teks;
+    </script>
+</body>
+</html>
