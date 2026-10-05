@@ -1,0 +1,35 @@
+    .container-article article {
+        align-items: flex-start;
+        border: 2px solid black;
+        padding: 2px;
+    }
+
+    .container-article {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .container-article article .delete-btn {
+        width: 3rem;
+        background-color: #f34040;
+        border: 0.5px solid black;
+        cursor: pointer;
+    }
+
+    .container-article article .info-btn {
+        width: 3rem;
+        background-color: #372bdf;
+        border: 0.5px solid black;
+        cursor: pointer;
+    }
+
+    main section {
+        width: 100%;
+        height: 100vh;
+    }
+
+    header {
+        width: 100%;
+        position: sticky;
+    }

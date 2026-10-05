@@ -1,47 +1,71 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Kalkulator Sederhana</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../FrontEnd/style.css">
     </head>
     <body>
-        <div>
-            <label>
-                Bilangan 1 :
-            </label>
-            <input id="bilangan_1">
-        </div>
+        <div class="kalkulator-body">
+            <!-- Membuat Sebuah kalimat h1 membuat sebuah nama program tersebut -->
+            <h1>
+                Kalkulator Dasar 
+            </h1>
 
-        <div>
-            <label>
-                Bilangan 2 :
-            </label>
-            <input id="bilangan_2">
-        </div>
+            <!-- Tag untuk mengelompokkan tag untuk penginputan bilangan -->
+            <div class="input-group">
+                <!-- Tag satu per satu inputan untuk mengklasifikasikan satu inputan untuk 
+                 styleling lebih lanjut -->
+                <div>
+                    <label>
+                        Bilangan 1 :
+                    </label>
+                    <input id="bilangan_1" placeholder="Masukkan Bilangan">
+                </div>
 
-        <div>
-            <button onclick="penambahan()">
-                TAMBAH
-            </button>
-            <button onclick="pengurangan()">
-                KURANG
-            </button>
-        </div>
+                <div>
+                    <label>
+                        Bilangan 2 :
+                    </label>
+                    <input id="bilangan_2" placeholder="Masukkan Bilangan">
+                </div>
+            </div>
 
-        <div>
-            <label>
-                Hasil :
-            </label>
-            <input id="result" readonly>
+            <!-- Tag untuk mengelompokkan tag untuk tombol fitur operator -->
+            <div class="button-group">
+                <!-- setiap tag button dikasih function untuk logika pemrosesan hasil -->
+                <button onclick="penambahan()">
+                    TAMBAH
+                </button>
+                <button onclick="pengurangan()">
+                    KURANG
+                </button>
+                <button onclick="perkalian()">
+                    KALI
+                </button>
+                <button onclick="pembagian()">
+                    BAGI
+                </button>
+                <button onclick="hapus()">
+                    HAPUS
+                </button>
+            </div>
+
+            <!-- Pembuatan tag untuk klasifikasikan Hasil penginputan dan pemilihan -->
+            <div>
+                <label>
+                    Hasil :
+                </label>
+                <!-- Membuat hasil inputan hanya bisa dibaca -->
+                <input id="result" readonly>
+            </div>
         </div>
+        <!-- Pembuatan source code javascript didalam script.js dan disimpan dalam
+         backEnd -->
         <script src="../BackEnd/script.js"></script>
     </body>
 </html>

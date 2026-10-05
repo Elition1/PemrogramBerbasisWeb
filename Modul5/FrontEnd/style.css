@@ -1,0 +1,493 @@
+/* Mengimport font dari google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/* Membuat Color pallette menggunakan variabel css */
+:root {
+    --top-page-color_1: #5e4b56;
+    --top-page-color_2: #a690a4;
+    --home-section_1: #7f7fd5;
+    --home-section_2: #86a8e7;
+    --home-section_3: #91eae4;
+    --intro-section_1: #3f67b1;
+    --intro-section_2: #81c8e4;
+    --aside-section_1: #5082df;
+    --circle-color_light: #ecd719;
+    --border: #000000;
+    --color: #000000;
+    --card-color_1: #91eae4;
+    --card-color_2: #42b0d4;
+    --comment-section_1: #1b59df;
+    --comment-section_2: #962e84;
+    color: #000000;
+}
+
+.dark {
+    --top-page-color_1: #333333;
+    --top-page-color_2: #928d97;
+    --home-section_1: #1a2a4a;
+    --home-section_2: #4a2a4a;
+    --home-section_3: #3b113b;
+    --intro-section_1: #212121;
+    --intro-section_2: #572553;
+    --aside-section_1: #122953;
+    --circle-color_light: #ffffff;
+    --border: lightgrey;
+    --card-color_1: #662761;
+    --card-color_2: #201255;
+    --comment-section_1: #312b2b;
+    --comment-section_2: #262722;
+    color: #E0E0E0;
+}
+
+/* Membuat width dan height di masukkan dalam konten, padding, dan border */
+* {
+    box-sizing: border-box; 
+}
+
+/* Menggantikan isi font semua elemen text menjadi Roboto dari import google */
+html, body {
+    overflow-x: clip;
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+}
+
+
+/* Membuat dalam tag menjadi bagian dari layar device web digunakan untuk navigasi */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;          
+    align-items: center;        
+    padding: 15px;
+    gap: 10px 20px;         
+    background-image: linear-gradient(to right, var(--top-page-color_1), var(--top-page-color_2));
+    border-bottom: 3px solid var(--border);
+}
+
+/* Merapikan elemen-elemen pada navigasi */
+nav {
+    justify-content: space-between;
+    display: flex;
+    gap: 15px;          
+}
+
+/* Mengubah ukuran img pada elemen di navigasi*/
+.top-section {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+    border-radius: 50px;
+}
+
+.title-blog {
+    padding: 0 20px; /* Menambahkan Padding elemet dalam */
+}
+
+/* Class Untuk mengelompokkan kartu */
+.card-group {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 20px 30px;
+}
+
+/* Membuat kartu untuk article tag konten */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: start;
+    border: 3px solid var(--border);
+    padding: 20px;
+    background: linear-gradient(154deg,var(--card-color_1) 0%, var(--card-color_2) 83%);
+    border-radius: 20%;
+}
+
+/* Menambahkan desain warna belakang web */
+.blog-section {
+    overflow: hidden;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(
+        150deg, 
+        var(--home-section_1), 
+        var(--home-section_2),
+        var(--home-section_3)
+        );
+    background-size: contain;
+    background-repeat: repeat, no-repeat;
+    background-position: right;
+    border-bottom: 3px solid var(--border);
+}
+
+/* Menambahkan desain belakang untuk bagian introduksi diri sendiri */
+.introduction-section {
+    border-bottom: 3px solid var(--border);
+    min-height: 100vh;
+    width: 100%;
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: linear-gradient(to right, var(--intro-section_1), var(--intro-section_2));
+}
+
+/* Menyusun elemen-elemen dalam grup intro */
+.intro-section-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+/* Membuat sebuah kartu konten article */
+.intro-card {
+    display: flex;
+    flex-direction: column;   
+    justify-content: center;
+    align-items: center;
+    border: 3px solid var(--border);
+    padding: 20px;
+    width: 100%;
+    background: linear-gradient(154deg,var(--card-color_1) 0%, var(--card-color_2) 83%);
+    border-radius: 10%;
+}
+
+/* Mengubah posisi pas foto */
+.photo-intro {
+    width: 200px;      
+    height: 250px;
+    flex-shrink: 0; 
+    border: 3px solid var(--border);
+    border-radius: 50%;
+}
+
+/* Mengubah ukuran img */
+.photo-intro img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+    border-radius: 50%; 
+}
+
+/* Membuat desain belakang untuk bagian konten aside */
+.aside-call {   
+    background-color: var(--aside-section_1);
+    min-height: 20vh;
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mengelompokkan dan merapikan posisi icon kontak */
+.contact-group {
+    display: flex;
+    flex-direction: column;   
+    align-items: center;
+    justify-content: center;
+    gap: 15px;               
+}
+
+/* Membuat sebuah  */
+.contact-icons {
+    display: flex;
+    flex-direction: row;      
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.icons {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    display: block;
+}
+
+footer {
+    background-color: var(--aside-section_1);
+    padding: 10px 20px;
+}
+
+.toggle-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;             
+    white-space: nowrap;       
+}
+
+.toggle-content {
+    width: 60px;
+    height: 30px;          
+    flex-shrink: 0;        
+    margin: 0 10px;
+    background: #222;
+    border-radius: 100px;
+    position: relative;
+    padding: 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.circle {
+    flex-shrink: 0;             
+    background-color: var(--circle-color_light);
+    height: 20px;
+    width: 20px;
+    border-radius: 100px;
+    transition: all 0.3s ease-in-out;
+}
+
+.comment-section {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(154deg,var(--comment-section_1) 0%, var(--comment-section_2) 83%);
+    border-bottom: 3px solid black;
+}
+
+.dark .toggle-content {
+    background: #6e6464;
+}
+
+.dark .toggle-container .circle {
+    transform: translateX(30px);
+}
+
+.portfolio-contents {
+    width: 100%;
+    padding: 30px 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.portfolio-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.portfolio-form input {
+    flex: 1 1 180px;
+    padding: 8px 10px;
+    border: 3px solid var(--border);
+    border-radius: 10px;
+}
+
+#portfolio-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.card-portfolio {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 20px;
+    border: 3px solid var(--border);
+    border-radius: 20px;
+    background: linear-gradient(154deg, var(--card-color_1) 0%, var(--card-color_2) 83%);
+}
+
+.add-portfolio,
+.delete-portfolio {
+    padding: 8px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.add-portfolio { background-color: #3ddc84; }
+.delete-portfolio { background-color: #f34040; color: white; margin-top: auto; }
+
+.comment-section {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: linear-gradient(154deg, var(--comment-section_1) 0%, var(--comment-section_2) 83%);
+    border-bottom: 3px solid black;
+}
+
+.comment-title {
+    margin: 0;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 640px;
+}
+
+.comment-form input,
+.comment-form textarea {
+    padding: 8px 10px;
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.comment-error {
+    min-height: 1.2em;      /* keeps the layout from jumping */
+    margin: 0;
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.button-comment-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.add-comment,
+.clear-comments,
+.delete-comment {
+    padding: 8px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.add-comment { background-color: #3ddc84; }
+.clear-comments,
+.delete-comment { background-color: #f34040; color: white; }
+
+.comment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 640px;
+}
+
+.comment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 15px;
+    border: 3px solid var(--border);
+    border-radius: 15px;
+    background: linear-gradient(154deg, var(--card-color_1) 0%, var(--card-color_2) 83%);
+}
+
+.comment-card p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.comment-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    align-items: baseline;
+}
+
+@media (max-width: 480px) {
+    .top-section {
+        width: 45px;
+        height: 45px;
+    }
+
+    nav {
+        gap: 12px;
+    }
+
+    .toggle-container {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;   
+    }
+}
+
+@media (min-width: 768px) {
+    #portfolio-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .title-blog {
+        padding: 0 40px;
+    }
+
+    /* Grid menjadi 2 kolom */
+    .card-group {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        padding: 0 40px 30px;
+    }
+
+    /* Foto & kartu perkenalan berdampingan */
+    .intro-section-group {
+        flex-direction: row;
+        gap: 50px;
+        padding: 0 30px;
+    }
+
+    /* Mengubah pergerakan elemen menggunakan flex */
+    .intro-card {
+        width: auto;
+        flex: 1;
+    }
+
+    /* Mengurangi jarak icon dengan yang lain */
+    .contact-icons {
+        gap: 20px;
+    }
+
+    /* Mengubah ukuran icon */
+    .icons {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Media query untuk desktop */
+@media (min-width: 992px) {
+    .title-blog {
+        padding-left: 60px;
+    }
+
+    /* Penyusunan elemen menggunakan grid */
+    .card-group {
+        grid-template-columns: repeat(2, 340px);
+        padding: 0 50px 30px;
+    }
+
+    /* Menambahkan padding ke kanan elemen  */
+    .section-title-intro {
+        padding-right: 200px;
+    }
+
+    /* Otomatis mengubah ukuran width ketika di kecilkan atau di besarkan layar web */
+    .intro-section-group {
+        width: auto;
+        padding: 0;
+    }
+
+    /* Mengubah responsif web dari flex display menjadi non dan mengubah ukuran width */
+    .intro-card {
+        flex: none;
+        width: 640px;
+    }
+}

@@ -1,0 +1,89 @@
+/* Membuat semua elemen mempunyai margin dan padding 0 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Memuat semua elemen dalam body ke tengah website */
+body {
+    background-color: rgba(238, 238, 238, 0.368);
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mengdisplay elemen dalam input group
+ mempunyai display flex dengan jarak antara elemen
+ menambah */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    row-gap: 5px;
+}
+
+/* Membuat semua elemen dalam kalkulator body
+ teks menjadi ke tengah */
+.kalkulator-body {
+    text-align: center;
+}
+
+/* Semua elemen h1 dalam badan kalkulator 
+    mengubah teks warna dan menambahkan 
+    shadow*/
+.kalkulator-body h1 {
+    color: royalblue;
+    text-shadow: 3px 3px 0 lightgray;
+}
+
+/* Mengubah semua tag button dalam badan
+    kalkulator dengan mengubah warna teks,
+    menambahkan border, dan warna belakang*/
+.kalkulator-body button {
+    color: white;
+    border: 2px solid black;
+    background-color: hsl(240, 90%, 56%);
+}
+
+/* Mengubah warna button ketika di cursor 
+    menghover elemen button dalam badan kalkulator */
+.kalkulator-body button:hover {
+    background-color: hsl(240, 79%, 73%);
+}
+
+/* Mengubah warna button ketika di cursor 
+    mengklik elemen button dalam badan kalkulator */
+.kalkulator-body button:active {
+    background-color: hsl(240, 39%, 93%);
+}
+
+/* Menyusun tombol-tombol operator dalam 
+    secara display grid dan akan melakukan
+    penyusunan berdasarkan ukuran display */
+.kalkulator-body .button-group {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 4px;
+    gap: 10px;
+}
+
+/* Melakukan pengubahan styling elemen
+    ketika display width mencapai kurang sama
+    dari 700px*/
+@media (max-width: 700px) {
+    .kalkulator-body h1 {
+        font-size: 2rem;
+    }
+
+    .kalkulator-body button {
+        padding: 8px 14px;
+        font-size: 1rem;
+    }
+
+    .kalkulator-body input {
+        padding: 6px;
+        font-size: 1rem;
+    }
+}

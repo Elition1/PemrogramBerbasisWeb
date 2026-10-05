@@ -1,0 +1,68 @@
+/* ===== Base (ringkas, lanjutan Modul 1–2) ===== */
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  color: #1a1a1a;
+  background-color: #ffffff;
+}
+
+header, main, footer { padding: 1rem 1.25rem; }
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+nav { display: flex; gap: 0.5rem; }
+
+button {
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #888;
+  border-radius: 6px;
+  background: #f2f2f2;
+  font: inherit;
+}
+
+.daftar-artikel {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+article {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+article h3 { margin: 0 0 0.25rem; }
+article time { color: #666; font-size: 0.9rem; }
+
+aside {
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #fafafa;
+}
+
+/* ===== B.3 — Tema gelap (dark mode) ===== */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #f2f2f2;
+}
+
+body.dark-mode article,
+body.dark-mode aside { border-color: #444; background: #222; }
+
+body.dark-mode button { background: #333; color: #f2f2f2; border-color: #666; }
+
+/* ===== B.4 — Kelas untuk menyembunyikan elemen ===== */
+.tersembunyi { display: none; }
