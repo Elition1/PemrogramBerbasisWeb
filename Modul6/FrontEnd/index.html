@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modul 6 - Form Validasi</title>
+    <link rel="stylesheet" href="../FrontEnd/style.css">
+</head>
+<body>
+    <div class="banner">
+        <!-- Container form untuk css styling -->
+        <div class="form-container">
+            <!-- Heading page untuk pengenal form pendaftaran -->
+            <div class="page-header">
+                <img src="../Assets/logousd.svg" alt="Universitas Sanata Dharma">
+                <div class="judul-page">    
+                    <h1>Formulir Pendaftaran Mahasiswa Baru</h1>
+                    <h2>Universitas Sanata Dharma</h2>
+                    <small>
+                        Mrican, Tromol Pos 29 Yogyakarta 55002, Telp. (0274) 513301 Fax. (0274) 562383
+                    </small>
+                    <br>
+                    <small>
+                        Homepage: 
+                        <a href="http://www.usd.ac.id">
+                            http://www.usd.ac.id
+                        </a>
+                        , E-mail:
+                        <a href="mailto:humas@usd.ac.id">
+                            humas@usd.ac.id
+                        </a>
+                    </small>
+                </div>
+            </div>
+            
+            <!-- Form pendaftaran untuk validasi -->
+            <form id="form-pendaf" enctype="multipart/form-data" novalidate>
+
+                <h3>
+                    A. Data Calon Mahasiswa dan Orangtua/Wali
+                </h3>
+
+                <!-- Input nama -->
+                <p>
+                    <label for="name">Nama Lengkap :</label>
+                    <input type="text" id="name" name="name" placeholder="masukkan nama anda" minlength="3" maxlength="30" required>
+                </p>
+
+                <!-- Input NIK -->
+                <p>
+                    <label for="nik">Nomor Induk Kependudukan (NIK) :</label>
+                    <input type="text" id="nik" name="nik" inputmode="numeric" pattern="[0-9]{16}" minlength="16" maxlength="16" placeholder="16 digit NIK" required>
+                </p>
+
+                <!-- Input Jenis Kelamin -->
+                <p>
+                    <label for="jenis-kelamin">Jenis Kelamin :</label>
+                    <select id="jenis-kelamin" name="jenis_kelamin" required>
+                        <option value="">-- Pilih Jenis Kelamin --</option>
+                    </select>
+                </p>
+
+                <!-- Input Tanggal Lahir -->
+                <p>
+                    <label>Tanggal Lahir :</label>
+                    <input type="date" id="tanggalLahir" name="tanggal_lahir" required>
+                </p>
+
+                <!-- Input Kategori Status -->
+                <p>
+                    <label for="status">Status :</label>
+                    <select id="status" name="status" required>
+                        <option value="">-- Pilih Status --</option>
+                    </select>
+                </p>
+
+                <!-- Input Kategori Agama -->
+                <p>
+                    <label for="agama">Agama :</label>
+                    <select id="agama" name="agama" required>
+                        <option value="">-- Pilih Agama --</option>
+                    </select>
+                </p>
+
+                <!-- Input Kategori Kewarganegaraan -->
+                <p>
+                    <label for="kewarganegaraan">Kewarganegaraan :</label>
+                    <select id="kewarganegaraan" name="kewarganegaraan" required>
+                        <option value="">-- Pilih Kewarganegaraan --</option>
+                    </select>
+                </p>
+
+                <!-- Input Text alamat diri -->
+                <p>
+                    <label for="alamat">Alamat Anda :</label>
+                    <textarea id="alamat" name="alamat" rows="3" cols="30" placeholder="masukkan alamat anda" minlength="10"
+                    maxlength="100" required></textarea>
+                </p>
+
+                <!-- Input email diri -->
+                <p>
+                    <label for="email-input">Email Anda :</label>
+                    <input type="email" id="email-input" name="email" placeholder="Masukkan email Anda" required>
+                </p>
+
+                <!-- Input no telepon diri -->
+                <p>
+                    <label for="no-tel-input">No. Tel :</label>
+                    <input type="tel" id="tel-diri" name="telp_diri" pattern="[0-9+\-\s]{8,15}" placeholder="Masukkan No telepon Anda" required>
+                </p>
+
+                <!-- Input pilihan program studi -->
+                <p>
+                    <label for="program-studi">Program Studi Pilihan :</label>
+                    <select id="program-studi" name="program_studi" required>
+                        <option value="">
+                            -- Pilih Program Studi -- 
+                        </option>
+                    </select>
+                </p>
+
+                <!-- Input nama orang tua / wali -->
+                <p>
+                    <label for="nama-ortu">Orang Tua / Wali :</label>
+                    <input type="text" id="nama-ortu" name="nama_ortu" placeholder="Nama Orang Tua Anda" minlength="3" maxlength="30" required>
+                </p>
+
+                <!-- Input no telepon orang tua -->
+                <p>
+                    <label for="telp-ortu">No. Telepon Orang Tua :</label>
+                    <input type="tel" id="telp-ortu" pattern="[0-9+\-\s]{8,15}" name="telp_ortu" placeholder="No Telepon Orang Tua" required>
+                </p>
+
+                <h3>
+                    B. Berkas Pendukung
+                </h3>
+
+                <!-- Input file KTP/KK -->
+                <p>
+                    <label for="bukti-identitas">Bukti Identitas (KTP/KK) :</label>
+                    <input type="file" id="bukti-identitas" name="bukti_identitas" accept="image/*,.pdf" required>
+                </p>
+
+                <!-- Input file pas foto -->
+                <p>
+                    <label for="verifikasi-wajah">Verifikasi Wajah (Foto Wajah) :</label>
+                    <input type="file" id="verifikasi-wajah" name="verifikasi_wajah" accept="image/*" capture="user" required>
+                </p>
+
+                <!-- Input file tanda tangan diri -->
+                <p>
+                    <label for="tanda-tangan">Tanda Tangan :</label>
+                    <input type="file" id="tanda-tangan" name="tanda_tangan" required>
+                </p>
+
+                <!-- Input file pembuktian pembayaran biaya -->
+                <p>
+                    <label for="bukti-bayar">Bukti Pembayaran Biaya Administrasi :</label>
+                    <input type="file" id="bukti-bayar" name="bukti_bayar" required>
+                    
+                </p>
+                    <small style="font-style: italic;">
+                        *Nominal pembayaran sebesar Rp200,000 untuk biaya Administrasi 
+                    </small>
+
+                <!-- Form submission -->
+                <p>
+                    <button type="submit">Kirim</button>
+                </p>
+            </form>
+        </div>
+    </div>
+    <!-- Javascript untuk file validasi -->
+    <script src="../BackEnd/script.js"></script>
+</body>
+</html>

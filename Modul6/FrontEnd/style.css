@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(179, 94, 94);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;          
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 700px;           
+    margin: 0;                   
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: white;
+}
+.page-header {
+    display: grid;
+    width: auto;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 16px;
+    border-bottom: 2px solid black;
+    background-color: bisque;
+    margin: -10px -10px 0;        
+    padding: 10px;
+    border-radius: 18px 18px 0 0;
+}
+
+.page-header img {
+    height: 90px;
+    width: auto;
+}
+
+.banner {
+    width: 100%;
+    min-height: 250px;          
+    padding: 20px 16px;
+    display: flex;
+    justify-content: center;     
+    align-items: flex-start;    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../Assets/top-banner.png');
+    background-size: 100% 250px;
+    background-position: center top;
+}
+
+textarea {
+    vertical-align: top;
+}
+
+input[type="file"] {
+    border: none;
+}
+
+input[type="file"]::file-selector-button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: #1d4ed8;
+}
+
+form p {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+    column-gap: 16px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="date"],
+form select,
+form textarea {
+    width: 100%;
+}
+
+input:user-invalid:not([type="file"]),
+select:user-invalid,
+textarea:user-invalid {
+    border: 2px solid red;
+}
+
+input:user-valid:not([type="file"]),
+select:user-valid,
+textarea:user-valid {
+    border: 2px solid green;
+}
+
+.error-msg {
+    grid-column: 2;          /* same column as the input */
+    color: #dc2626;
+    font-size: 0.8rem;
+    min-height: 1em;
+}
+
+@media (max-width: 600px) {
+    form p {
+        grid-template-columns: 1fr;
+    }
+    form p button {
+        grid-column: 1;
+    }
+    form > small {
+        margin-left: 0;
+    }
+    .error-msg {
+        grid-column: 1;
+    }
+}
