@@ -58,8 +58,30 @@ NIM : 255314109
     Jawab : <br>
     Implementasi HTML :
 </p>
+
 ```html
-    <label for="tanggal-lahir">Tanggal Lahir : </label>
-    <input type="date" id="tanggalLahir" nama="tanggal_lahir" required> 
-    <span id="error-tgl-lahir"></span>
+<label for="tanggal-lahir">Tanggal Lahir : </label>
+<input type="date" id="tanggalLahir" name="tanggal_lahir" required> 
+<span id="error-tgl-lahir"></span>
 ```
+
+<p>
+Implementasi Pseudocode :
+Ambil Elemen dengan id tanggalLahir nama Tanggal
+Deklarasi variabel tanggalSekarang = Objek.TanggalHariIni()
+Setting Tanggal.max = tanggalSekarang
+
+Setiap elemen Tanggal divalidasi maka:
+ambil nilai atribut dari Tanggal.value
+
+Jika tanggal.value kosong
+Display("Tanggal Lahir Wajib Diisi")
+return
+Selain dari jika tanggal.value > tanggalSekarang
+Tanggal.setCustomValidity("Tanggal Lahir tidak Boleh dari tanggal hari ini)
+return
+Selain dari itu
+Tanggal.setCustomValidity("")
+
+END
+</p>
