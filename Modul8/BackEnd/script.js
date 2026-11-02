@@ -413,20 +413,28 @@ if(commentContainer)
   // memuat indikator loading pada container komen
   const loadingKomen = document.getElementById("comment-loading");
 
-  // 
+  // membuat function async dimana function berjalan sendiri tanpa menunggu
   async function memuatAPIKomen() {
+    // kembali jika komen API sudah terender dari sebelumnya
     if (localStorage.getItem("komenAPI") === "true") return;
     
+    // membuat indikator loading jika komen lagi sedang memuat
     if (loadingKomen) loadingKomen.style.display = "block";
 
+    // mencoba barisan kode dan melemparkan error jika terjadi ada kesalahan
     try {
+      // membuat response dari API dengan async harus mengnunggu sampai panggilan dari await selesai
       const response = await fetch (BASEAPI + "/comments?_limit=5");
+
+      // jika response terjadi kesalahan maka melempar status response tersebut
       if (!response.ok) {
         throw new Error("Status : " + response.status);
       }
 
+      // memuat hasil response tersebut dalam bentuk json dan mewajibkan async menunggu dulu sampai panggilan await selesai
       const daftarArtikelAPI = await response.json();
       
+      // memetakan hasil API json tersebut dalam kartu komen untuk rendering
       const komenAPI = daftarArtikelAPI.map((data) => ({
         id: data.id,
         nama: data.email,
@@ -434,18 +442,29 @@ if(commentContainer)
         waktu: new Date()
       }));
 
+      // mengambil hasil simpanan komen yang masoh ada
       const komenTersimpan = JSON.parse(localStorage.getItem("komen")) || [];
+
+      // menyimpan lagi ke dalam local storage dengan tambahan komen dari API dari awal dulu setelah itu komen yang disimpan
       localStorage.setItem("komen", JSON.stringify([...komenAPI, ...komenTersimpan]));
+
+      // menyeying komenAPI menjadi true jika komen API sudah berhasil dirender
       localStorage.setItem("komenAPI", "true");
 
+      // render hasil komen dengan tambahan API tersebut
       renderComments();
+
+      // menangkap error jika terjadi kesalahan 
     } catch (error) {
+      // menampilkan error dan tampilan dalam konsol jika terjadi error
       showCommentError("Gagal memuat komen dari API");
       console.error("Gagal mengambil data: ", error)
     } finally {
+      // jika bagian blok try sudah berhasil tanpa ada kesalahan maka indikator loading menghilang
       if (loadingKomen) loadingKomen.style.display = "none";
     }
   }
 
+  // memanggil fungsi komen API tersebut
   memuatAPIKomen();
 }
