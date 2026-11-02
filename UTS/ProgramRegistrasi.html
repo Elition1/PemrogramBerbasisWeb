@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Registrasi</title>
+ <style>
+    .sukses { color: green; }
+    .gagal { color: red; }
+ </style> 
+</head>
+    <body>
+        <h1>Registrasi Peserta Seminar IT Days</h1>
+        <form id="form-registrasi">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama">
+
+            <label for="email">Email</label>
+            <input type="text" id="email">
+
+            <label for="password">Password</label>
+            <input type="password" id="password">
+
+            <label for="konfirmasi">Konfirmasi Password</label>
+            <input type="password" id="konfirmasi">
+
+            <button type="submit">Daftar</button>
+        </form>
+            <ul id="daftar-error" class="gagal"></ul>
+            <p id="pesan" class="sukses"></p>
+        <script>
+            const formDaftar = document.getElementById('form-registrasi');
+
+            const listError = document.getElementById('daftar-error');
+
+            const namaElemen = document.getElementById('nama');
+
+            const emailElemen = document.getElementById('email');
+
+            const passwordElemen = document.getElementById('password');
+
+            const konfirmasiElemen = document.getElementById('konfirmasi');
+
+            function getNama () {
+                let valueElemen = namaElemen.value;
+
+                if (valueElemen == "")
+                {
+                    namaError = document.createElement('li');
+                    
+                    namaError.className = 'gagal';
+                    
+                    namaError.textContent = "Nama Wajib Diisi";
+
+                    listError.append(namaError);
+                    return false;
+                }
+
+                return true;
+            }
+
+            function getEmail () {
+                let emailValue = emailElemen.value;
+
+                const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                let testEmail = regexEmail.test(emailValue);
+
+                if (!testEmail) {
+                    emailError = document.createElement('li');
+                    emailError.className = 'gagal';
+                    emailError.textContent = 'Email Harus Ada Symbol @';
+                    listError.append(emailError);
+                    return false;
+                }
+
+                return true;
+            }
+
+            function getPassword(password) {
+                if(password.length < 6)
+                {
+                    passwordError = document.createElement('li');
+                    passwordError.className = 'gagal';
+                    passwordError.textContent = 'Password Minimal 6 Karakter ';
+                    listError.append(passwordError);
+                    return false;
+                }
+
+                return true;
+            }
+
+            formDaftar.addEventListener('submit', (e) => {
+                e.preventDefault();
+                listError.textContent = "";
+                const namaBenar = getNama();
+                const emailBenar = getEmail();
+
+                
+
+                const password = document.getElementById("password").value;
+                const konfirmasi = document.getElementById("konfirmasi").value;
+
+                const passwordBenar = getPassword(password);
+                
+                if(!namaBenar && !emailBenar && !passwordBenar)
+                {
+                    return;   
+                }
+
+                if(password != konfirmasi)
+                {
+                    konfirmasiError = document.createElement('li');
+                    konfirmasiError.className = 'gagal';
+                    konfirmasiError.textContent = 'Password Tidak Sesuai';
+                    listError.append(konfirmasiError);
+                    return;
+                } 
+                else
+                {
+                    const pesanSukses = document.getElementById('pesan');
+
+                    pesanSukses.textContent = `Selamat Bergabung ${namaElemen.value}!`;
+
+                    formDaftar.reset();
+                } 
+            })
+        </script>
+    </body>
+</html>

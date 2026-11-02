@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Roast Toast Coast Cafe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --green-deep:    #1a3a2a;
+            --green-mid:     #2d6a4f;
+            --green-light:   #52b788;
+            --green-pale:    #b7e4c7;
+            --green-mist:    #d8f3dc;
+            --gold:          #c9a84c;
+            --cream:         #f5f0e8;
+            --bark:          #6b4226;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--green-deep);
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* ── SVG leaf decorations ── */
+        .leaf-deco {
+            position: absolute;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        /* ══════════════════════════
+           LEFT PANEL
+        ══════════════════════════ */
+        .content {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 48px 36px;
+            background: linear-gradient(160deg, #1a3a2a 0%, #2d6a4f 60%, #1a3a2a 100%);
+        }
+
+        /* Faint circle glow behind hero */
+        .content::before {
+            content: '';
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(82,183,136,0.18) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        /* ── Header card ── */
+        .header-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(82,183,136,0.35);
+            border-radius: 20px;
+            padding: 36px 32px 28px;
+            text-align: center;
+            backdrop-filter: blur(6px);
+            margin-bottom: 28px;
+        }
+
+        /* Leaf icon above title */
+        .leaf-icon {
+            display: block;
+            margin: 0 auto 14px;
+            width: 48px;
+            height: 48px;
+        }
+
+        .header-container h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--green-pale);
+            font-size: 2.4em;
+            line-height: 1.25;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .header-container h1 span {
+            color: var(--gold);
+        }
+
+        .header-container p {
+            font-size: 1.05em;
+            color: rgba(183,228,199,0.75);
+            font-weight: 300;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Divider vine */
+        .vine-divider {
+            width: 80%;
+            max-width: 260px;
+            margin: 0 auto 20px;
+            opacity: 0.55;
+        }
+
+        /* ── Menu section ── */
+        .menu-section {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(82,183,136,0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+        }
+
+        .menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 28px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.25s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(82,183,136,0.12);
+        }
+
+        .menu-toggle h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.55em;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+        }
+
+        .toggle-arrow {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: var(--green-light);
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+        }
+
+        .menu-section.open .toggle-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Thin accent line under toggle */
+        .menu-toggle-border {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(82,183,136,0.45), transparent);
+            margin: 0 20px;
+            display: none;
+        }
+
+        .menu-section.open .menu-toggle-border {
+            display: block;
+        }
+
+        .menu-items {
+            list-style: none;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(.4,0,.2,1), padding 0.3s;
+        }
+
+        .menu-section.open .menu-items {
+            max-height: 400px;
+            padding: 12px 20px 20px;
+        }
+
+        .menu-items li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(45,106,79,0.38);
+            color: var(--green-mist);
+            padding: 13px 18px;
+            border-radius: 12px;
+            margin: 8px 0;
+            font-size: 1.05em;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            border-left: 3px solid var(--green-light);
+            transition: background 0.2s, transform 0.2s;
+            cursor: default;
+        }
+
+        .menu-items li:hover {
+            background: rgba(82,183,136,0.22);
+            transform: translateX(4px);
+        }
+
+        .menu-items li svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            fill: var(--green-light);
+            opacity: 0.85;
+        }
+
+        /* ══════════════════════════
+           RIGHT PANEL — image
+        ══════════════════════════ */
+        .image-panel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-panel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* Green tint overlay */
+        .image-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(26,58,42,0.55) 0%,
+                rgba(45,106,79,0.25) 50%,
+                transparent 100%
+            );
+            pointer-events: none;
+        }
+
+        /* Corner badge */
+        .badge {
+            position: absolute;
+            bottom: 28px;
+            right: 28px;
+            z-index: 2;
+            background: rgba(26,58,42,0.82);
+            border: 1px solid rgba(82,183,136,0.4);
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .badge span:first-child {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.72em;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .badge span:last-child {
+            font-size: 0.6em;
+            color: var(--green-pale);
+            margin-top: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            body { grid-template-columns: 1fr; }
+            .image-panel { height: 260px; order: -1; }
+            .content { padding: 36px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LEFT: content panel -->
+    <div class="content">
+
+        <!-- decorative background leaves -->
+        <svg class="leaf-deco" style="top:-60px;left:-60px;width:280px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#52b788" d="M10,100 Q50,-20 100,10 Q150,40 190,100 Q150,160 100,190 Q50,220 10,100Z"/>
+        </svg>
+        <svg class="leaf-deco" style="bottom:-40px;right:-40px;width:220px;transform:rotate(120deg)" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#52b788" d="M10,100 Q50,-20 100,10 Q150,40 190,100 Q150,160 100,190 Q50,220 10,100Z"/>
+        </svg>
+
+        <!-- Header -->
+        <div class="header-container">
+            <!-- Leaf icon -->
+            <svg class="leaf-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 4 C24 4 8 14 8 28 C8 38 16 44 24 44 C32 44 40 38 40 28 C40 14 24 4 24 4Z" fill="#52b788" opacity="0.9"/>
+                <line x1="24" y1="44" x2="24" y2="20" stroke="#1a3a2a" stroke-width="2" stroke-linecap="round"/>
+                <path d="M24 30 Q30 24 38 22" stroke="#1a3a2a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path d="M24 36 Q18 30 10 28" stroke="#1a3a2a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+
+            <h1>Welcome to the<br><span>Roast Toast</span><br>Coast Cafe</h1>
+            <p>Where flavor meets the shore</p>
+        </div>
+
+        <!-- SVG vine divider -->
+        <svg class="vine-divider" viewBox="0 0 260 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 14 Q30 2 65 14 Q100 26 130 14 Q160 2 195 14 Q220 22 260 14" stroke="#52b788" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <circle cx="130" cy="14" r="3.5" fill="#52b788"/>
+            <path d="M100 14 Q110 4 118 10" stroke="#52b788" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <path d="M160 14 Q150 4 142 10" stroke="#52b788" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <circle cx="65" cy="14" r="2" fill="#52b788" opacity="0.6"/>
+            <circle cx="195" cy="14" r="2" fill="#52b788" opacity="0.6"/>
+        </svg>
+
+        <!-- Menu section -->
+        <div class="menu-section" id="menuSection">
+            <div class="menu-toggle" onclick="toggleMenu()" role="button" aria-expanded="false" aria-controls="menuItems">
+                <h2>Our Menu</h2>
+                <svg class="toggle-arrow" viewBox="0 0 24 24">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <div class="menu-toggle-border"></div>
+            <ul class="menu-items" id="menuItems">
+                <li>
+                    <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8Z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                    Breezy Brews
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+                    Toasty Delights
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                    Coastal Bites
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>
+                    Sunset Sips
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- RIGHT: image panel -->
+    <div class="image-panel">
+        <img
+            src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=2561&auto=format&fit=crop"
+            alt="Lush green cafe atmosphere"
+            loading="eager"
+        />
+        <div class="badge">
+            <span>Est.<br>2024</span>
+            <span>🌿 Eco Cafe</span>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const section = document.getElementById('menuSection');
+            const toggle  = section.querySelector('.menu-toggle');
+            const isOpen  = section.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen);
+        }
+    </script>
+</body>
+</html>
