@@ -362,7 +362,7 @@ commentContainer.addEventListener("click", async (e) => {
     if (!response.ok) {
       throw new Error("Status: " + response.status);
     }
-
+    console.log(pesanDariStatus(response.status), "Status: ", response.status);
     // mengubah response menjadi json untuk menampilkan keberhasilan penghapusan komentar
     const hasil = await response.json();
     console.log("Berhasil Menghapus Komentar dari Server Id: ", hasil.id ?? id);
@@ -650,6 +650,9 @@ async function kirimKomenKeServer(id, nama, pesan, waktu) {
     throw err;
   }
 
+  // Penanda status suskes
+  console.log(pesanDariStatus(response.status), "Status: ", response.status);
+
   // mengembalikan proses response dalam json
   return await response.json();
 }
@@ -676,6 +679,7 @@ async function updateLikeKomenKeServer (commentId, jumlahLike) {
     if(!response.ok) {
       throw new Error("Status: " + response.status);
     }
+    console.log(pesanDariStatus(response.status), "Status: ", response.status);
 
     // Ambil response tersebut dalam format JSON
     const hasil = await response.json();
@@ -733,6 +737,7 @@ async function editKomen(id, namaBaru, isiBaru) {
     if(!response.ok) {
       throw new Error("Status : " + response.status);
     }
+    console.log(pesanDariStatus(response.status), "Status: ", response.status);
 
     // membuat hasil response dalam bentuk json untuk pengambilan data
     const hasil = await response.json();
@@ -749,8 +754,11 @@ async function editKomen(id, namaBaru, isiBaru) {
   }
 }
 
-// Fungsi untuk mengembalikan status error dalam bentuk kalimat
+// Fungsi untuk mengembalikan status dalam bentuk kalimat
 function pesanDariStatus(status) {
+  if (status === 200) return "Permintaan berhasil.";
+  if (status === 201) return "Data berhasil dibuat di server.";
+  if (status === 204) return "Berhasil, tidak ada konten yang dikembalikan.";
   if (status === 404) return "Data tidak ditemukan di server.";
   if (status === 400) return "Data yang dikirim tidak valid.";
   if (status >= 500) return "Server sedang bermasalah, coba lagi nanti.";
