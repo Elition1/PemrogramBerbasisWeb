@@ -176,7 +176,7 @@ function createCommentCard(item, item_like) {
   card.dataset.id = item.id;
 
   const nama = document.createElement("span");
-  nama.slot = item.nama;
+  nama.slot = "nama";
   nama.textContent = item.nama;
 
   const pesan = document.createElement("span");
