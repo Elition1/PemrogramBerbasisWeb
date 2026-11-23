@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedCore Clinical Admin — AI Generation Evolution (2023 vs. 2026)</title>
+  <!-- Google Fonts: Inter for UI & JetBrains Mono for Clinical MRNs/Telemetry -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            clinical: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Smooth custom scrollbars for clinical tables and slide-over drawer */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Authentic 2023 Baseline Raw HTML Isolation Styling */
+    .legacy-2023-canvas {
+      font-family: "Times New Roman", Times, serif;
+      background-color: #ffffff;
+      color: #000000;
+    }
+    .legacy-2023-canvas input,
+    .legacy-2023-canvas button {
+      font-family: Arial, sans-serif;
+      border: 1px solid #767676;
+      background-color: #efefef;
+      color: #000000;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .legacy-2023-canvas input[type="text"] {
+      background-color: #ffffff;
+    }
+    .legacy-2023-canvas table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .legacy-2023-canvas th,
+    .legacy-2023-canvas td {
+      border: 1px solid #000000;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    .legacy-2023-canvas th {
+      background-color: #e0e0e0;
+    }
+
+    /* Pulse animation for live clinical status indicator */
+    @keyframes subtle-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.15); }
+    }
+    .animate-clinical-pulse {
+      animation: subtle-pulse 2.2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-teal-100 selection:text-teal-900">
+
+  <!-- ===================================================================== -->
+  <!-- 1. PERSISTENT TOP SHOWCASE BAR (2023 BASELINE VS 2026 PRODUCTION)     -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 bg-slate-900 text-white border-b border-slate-800 shadow-lg">
+    <div class="max-w-[1600px] mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Left: Benchmark Label -->
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-teal-500/15 text-teal-300 border border-teal-500/30">
+          <span class="w-2 h-2 rounded-full bg-teal-400 animate-clinical-pulse"></span>
+          AI Codegen Evolution
+        </span>
+        <span class="hidden md:inline text-xs text-slate-400">
+          Compare early LLM boilerplate against modern clinical application architecture
+        </span>
+      </div>
+
+      <!-- Center: Prominent Mode Switcher -->
+      <div class="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700/80 shadow-inner" role="tablist" aria-label="Model Generation Comparison Switcher">
+        <button
+          id="btn-mode-2023"
+          onclick="switchModelEra('2023')"
+          role="tab"
+          aria-selected="false"
+          class="px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white flex items-center gap-1.5"
+        >
+          <span class="w-2 h-2 rounded-full bg-amber-400/80"></span>
+          <span>Earlier Model <span class="hidden sm:inline">(2023 Baseline)</span></span>
+        </button>
+        <button
+          id="btn-mode-2026"
+          onclick="switchModelEra('2026')"
+          role="tab"
+          aria-selected="true"
+          class="px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-teal-600 text-white shadow-md flex items-center gap-1.5"
+        >
+          <span class="w-2 h-2 rounded-full bg-emerald-300"></span>
+          <span>Current Model <span class="hidden sm:inline">(2026 Production-Grade)</span></span>
+        </button>
+      </div>
+
+      <!-- Right: Side-by-Side Diff Notes Trigger -->
+      <div class="relative">
+        <button
+          id="btn-diff-notes"
+          onclick="toggleDiffPopover()"
+          aria-expanded="false"
+          aria-controls="diff-notes-popover"
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors"
+        >
+          <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+          <span>Side-by-Side Diff Notes</span>
+        </button>
+
+        <!-- Popover Panel -->
+        <div
+          id="diff-notes-popover"
+          class="hidden fixed sm:absolute right-2 sm:right-0 left-2 sm:left-auto mt-2.5 sm:w-[680px] max-h-[82vh] overflow-y-auto bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-200 p-5 z-50"
+        >
+          <div class="flex items-start justify-between pb-3 border-b border-slate-100">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Architectural Delta Report</span>
+              <h3 class="text-base font-bold text-slate-900 mt-0.5">2023 Baseline vs. 2026 Production-Grade Generation</h3>
+            </div>
+            <button onclick="toggleDiffPopover(false)" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100" aria-label="Close Diff Notes">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-3 text-xs">
+            <!-- Row 1: State Management -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+              <div class="sm:col-span-3 font-semibold text-slate-900 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                State Management
+              </div>
+              <div class="sm:col-span-4 text-slate-500 bg-white p-2 rounded-lg border border-slate-200/60">
+                <strong class="block text-amber-700 mb-0.5">2023 Baseline:</strong>
+                Hardcoded static HTML markup. Zero client state; search input and edit buttons have no event handlers.
+              </div>
+              <div class="sm:col-span-5 text-slate-700 bg-teal-50/60 p-2 rounded-lg border border-teal-200/70">
+                <strong class="block text-teal-800 mb-0.5">2026 Production:</strong>
+                Centralized reactive state engine recalculating KPIs, adherence rates, filters, and drawers in real time.
+              </div>
+            </div>
+
+            <!-- Row 2: Clinical Domain Realism -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+              <div class="sm:col-span-3 font-semibold text-slate-900 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                Domain Realism
+              </div>
+              <div class="sm:col-span-4 text-slate-500 bg-white p-2 rounded-lg border border-slate-200/60">
+                <strong class="block text-amber-700 mb-0.5">2023 Baseline:</strong>
+                Placeholder tokens ("Patient 1", "Condition X", "Medicine Y") with no clinical hierarchy or triage context.
+              </div>
+              <div class="sm:col-span-5 text-slate-700 bg-teal-50/60 p-2 rounded-lg border border-teal-200/70">
+                <strong class="block text-teal-800 mb-0.5">2026 Production:</strong>
+                MRN IDs, telemetry vitals (BP, HR, SpO2, Temp), structured oncology/cardiology/neuro protocols, and MAR checklists.
+              </div>
+            </div>
+
+            <!-- Row 3: Interactive Visualizations -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+              <div class="sm:col-span-3 font-semibold text-slate-900 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                Data Visualization
+              </div>
+              <div class="sm:col-span-4 text-slate-500 bg-white p-2 rounded-lg border border-slate-200/60">
+                <strong class="block text-amber-700 mb-0.5">2023 Baseline:</strong>
+                Omitted entirely or left as a <code>// TODO: Add Chart.js here</code> comment stub.
+              </div>
+              <div class="sm:col-span-5 text-slate-700 bg-teal-50/60 p-2 rounded-lg border border-teal-200/70">
+                <strong class="block text-teal-800 mb-0.5">2026 Production:</strong>
+                Zero-dependency responsive SVG hybrid bar/line telemetry chart & interactive clickable department donut breakdown.
+              </div>
+            </div>
+
+            <!-- Row 4: Accessibility & Ergonomics -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+              <div class="sm:col-span-3 font-semibold text-slate-900 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                UX & Accessibility
+              </div>
+              <div class="sm:col-span-4 text-slate-500 bg-white p-2 rounded-lg border border-slate-200/60">
+                <strong class="block text-amber-700 mb-0.5">2023 Baseline:</strong>
+                Unstyled default browser table that overflows on mobile viewports and lacks ARIA roles or focus states.
+              </div>
+              <div class="sm:col-span-5 text-slate-700 bg-teal-50/60 p-2 rounded-lg border border-teal-200/70">
+                <strong class="block text-teal-800 mb-0.5">2026 Production:</strong>
+                Responsive sidebar/drawer layout, high-contrast semantic status badges, keyboard Escape support, and touch-safe targets.
+              </div>
+            </div>
+
+            <!-- Row 5: End-to-End CRUD Workflows -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+              <div class="sm:col-span-3 font-semibold text-slate-900 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                CRUD Workflows
+              </div>
+              <div class="sm:col-span-4 text-slate-500 bg-white p-2 rounded-lg border border-slate-200/60">
+                <strong class="block text-amber-700 mb-0.5">2023 Baseline:</strong>
+                Read-only static rows; no ability to inspect charts, administer doses, log notes, or assign treatments.
+              </div>
+              <div class="sm:col-span-5 text-slate-700 bg-teal-50/60 p-2 rounded-lg border border-teal-200/70">
+                <strong class="block text-teal-800 mb-0.5">2026 Production:</strong>
+                Full clinical loop: slide-over MAR dose toggling, physician progress note creation, status transitions, and new treatment modal.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 2. EARLIER MODEL (2023 BASELINE) VIEW                                 -->
+  <!-- ===================================================================== -->
+  <main id="view-2023" class="hidden min-h-[calc(100vh-56px)] legacy-2023-canvas p-4 sm:p-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Subtle Benchmark Annotation Banner -->
+      <div style="font-family: Arial, sans-serif; background: #fffbeb; border: 1px solid #f59e0b; padding: 10px 14px; margin-bottom: 20px; font-size: 13px; color: #78350f;">
+        <strong>Simulated 2023 Baseline LLM Output:</strong> Early code-generation models typically produced unstyled HTML scaffolding with generic placeholder entities, non-functional inputs, missing visualizations, and zero state management. Toggle back to <strong>Current Model (2026)</strong> in the top bar to compare.
+      </div>
+
+      <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 6px;">Medical Treatment Admin Dashboard</h1>
+      <p style="margin-bottom: 16px; font-size: 14px;">Welcome, Admin. Manage patient treatments below.</p>
+
+      <!-- Non-functional Search & Add Bar -->
+      <div style="margin-bottom: 14px;">
+        <label for="legacy-search" style="font-size: 14px;">Search Patient: </label>
+        <input id="legacy-search" type="text" placeholder="Enter name..." />
+        <button type="button">Search</button>
+        <button type="button" style="margin-left: 10px;">+ Add Patient</button>
+      </div>
+
+      <!-- Plain Bordered Generic HTML Table -->
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Patient Name</th>
+              <th>Condition</th>
+              <th>Medication / Treatment</th>
+              <th>Doctor</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Patient 1</td>
+              <td>Condition X</td>
+              <td>Medicine Y</td>
+              <td>Doctor A</td>
+              <td>Active</td>
+              <td><button type="button">Edit</button> <button type="button">Delete</button></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Patient 2</td>
+              <td>Condition Z</td>
+              <td>Medicine A</td>
+              <td>Doctor B</td>
+              <td>Pending</td>
+              <td><button type="button">Edit</button> <button type="button">Delete</button></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Patient 3</td>
+              <td>Condition Y</td>
+              <td>Medicine B</td>
+              <td>Doctor A</td>
+              <td>Completed</td>
+              <td><button type="button">Edit</button> <button type="button">Delete</button></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>John Doe</td>
+              <td>Flu</td>
+              <td>Antibiotics</td>
+              <td>Dr. Smith</td>
+              <td>Active</td>
+              <td><button type="button">Edit</button> <button type="button">Delete</button></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Jane Doe</td>
+              <td>Fever</td>
+              <td>Paracetamol</td>
+              <td>Dr. Jones</td>
+              <td>Completed</td>
+              <td><button type="button">Edit</button> <button type="button">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top: 16px; font-size: 12px; color: #555555;">
+        Showing 1 to 5 of 5 entries. | Footer: Hospital Admin System 2023.
+      </p>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 3. CURRENT MODEL (2026 PRODUCTION-GRADE) — MEDCORE CLINICAL ADMIN     -->
+  <!-- ===================================================================== -->
+  <div id="view-2026" class="min-h-[calc(100vh-56px)] flex flex-col lg:flex-row bg-slate-50">
+
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="mobile-sidebar-backdrop" onclick="toggleMobileSidebar(false)" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-30 lg:hidden"></div>
+
+    <!-- Responsive Sidebar Navigation -->
+    <aside id="medcore-sidebar" class="fixed lg:sticky top-[52px] left-0 z-40 h-[calc(100vh-52px)] w-64 bg-white border-r border-slate-200/90 flex flex-col justify-between transition-transform duration-200 -translate-x-full lg:translate-x-0 shrink-0">
+      <div class="p-4">
+        <!-- Brand Identity -->
+        <div class="flex items-center justify-between px-2 py-2.5 mb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-700 text-white flex items-center justify-center shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <div>
+              <div class="font-bold text-slate-900 tracking-tight leading-none text-base">MedCore</div>
+              <div class="text-[11px] font-medium text-teal-600 mt-1">Clinical Treatment OS</div>
+            </div>
+          </div>
+          <button onclick="toggleMobileSidebar(false)" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:bg-slate-100" aria-label="Close Sidebar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 px-3 mb-2">Clinical Modules</div>
+        <nav class="space-y-1" aria-label="Primary Clinical Navigation">
+          <button
+            onclick="selectNavTab('overview')"
+            data-nav="overview"
+            class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold bg-teal-50 text-teal-800 border border-teal-200/70 transition-all"
+          >
+            <span class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Overview
+            </span>
+          </button>
+
+          <button
+            onclick="selectNavTab('protocols')"
+            data-nav="protocols"
+            class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all"
+          >
+            <span class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Active Protocols
+            </span>
+            <span id="nav-badge-active" class="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">10</span>
+          </button>
+
+          <button
+            onclick="selectNavTab('triage')"
+            data-nav="triage"
+            class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all"
+          >
+            <span class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              Triage Queue
+            </span>
+            <span id="nav-badge-critical" class="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">4</span>
+          </button>
+
+          <button
+            onclick="selectNavTab('pharmacy')"
+            data-nav="pharmacy"
+            class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all"
+          >
+            <span class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+              Pharmacy & Orders
+            </span>
+            <span id="nav-badge-pending-doses" class="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">12</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Bottom Attending Clinician Profile -->
+      <div class="p-4 border-t border-slate-100">
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-teal-700 text-white font-semibold text-xs flex items-center justify-center shrink-0">
+            CM
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-semibold text-slate-900 truncate">Dr. Claire Moreau, MD</div>
+            <div class="text-[11px] text-slate-500 truncate">Chief Medical Officer • Wing B</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Clinical Workspace -->
+    <div class="flex-1 min-w-0 flex flex-col">
+      <!-- Top Utility Bar -->
+      <div class="bg-white border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleMobileSidebar(true)" class="lg:hidden p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50" aria-label="Open Navigation Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div>
+            <div class="flex items-center gap-2.5">
+              <h1 id="workspace-heading" class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Clinical Treatment Overview</h1>
+              <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-clinical-pulse"></span>
+                EHR Telemetry Live
+              </span>
+            </div>
+            <p id="workspace-subheading" class="text-xs text-slate-500 mt-0.5">St. Jude Medical Center • Inpatient & Acute Specialty Protocols</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <button
+            onclick="openAssignModal()"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white shadow-sm hover:shadow transition-all cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>+ Assign Treatment</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrollable Dashboard Content -->
+      <div class="p-4 sm:p-6 lg:p-8 max-w-[1440px] w-full mx-auto space-y-6">
+
+        <!-- =============================================================== -->
+        <!-- KPI SUMMARY ROW (4 CARDS)                                       -->
+        <!-- =============================================================== -->
+        <section aria-label="Clinical Key Performance Indicators" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <!-- KPI 1: Active Treatments -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:border-teal-300/80 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Active Treatments</span>
+              <div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2.5">
+              <span id="kpi-active-treatments" class="text-3xl font-bold text-slate-900 font-mono tracking-tight">142</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">
+                +8.4%
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1.5">Across 4 specialty inpatient wards</p>
+          </div>
+
+          <!-- KPI 2: Critical Triage Alerts -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:border-rose-300/80 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Critical Triage Alerts</span>
+              <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2.5">
+              <span id="kpi-critical-alerts" class="text-3xl font-bold text-slate-900 font-mono tracking-tight">4</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">
+                -2 from yesterday
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1.5">Continuous telemetry escalation active</p>
+          </div>
+
+          <!-- KPI 3: Protocol Adherence Rate -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:border-teal-300/80 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Protocol Adherence Rate</span>
+              <div class="w-9 h-9 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2.5">
+              <span id="kpi-adherence-rate" class="text-3xl font-bold text-slate-900 font-mono tracking-tight">94.6%</span>
+              <span id="kpi-adherence-delta" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">
+                +1.2%
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1.5">Updates live as MAR doses are logged</p>
+          </div>
+
+          <!-- KPI 4: Avg. Length of Stay -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:border-teal-300/80 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Avg. Length of Stay</span>
+              <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2.5">
+              <span class="text-3xl font-bold text-slate-900 font-mono tracking-tight">3.8 <span class="text-lg font-sans font-semibold text-slate-500">days</span></span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
+                Target &le; 4.2d
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1.5">30-day rolling discharge efficiency</p>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- INTERACTIVE DATA VISUALIZATIONS (RESPONSIVE CUSTOM SVG CHARTS)  -->
+        <!-- =============================================================== -->
+        <section id="charts-section" aria-label="Clinical Telemetry Visualizations" class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <!-- Chart 1: 7-Day Admissions vs Completed Treatments (Bar + Line Hybrid SVG) -->
+          <div class="lg:col-span-7 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div class="flex flex-wrap items-start justify-between gap-2 mb-4">
+              <div>
+                <h2 class="text-sm font-bold text-slate-900">7-Day Admissions vs. Completed Treatments</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Hover any day column to inspect inpatient throughput & discharge velocity</p>
+              </div>
+              <div class="flex items-center gap-4 text-xs">
+                <span class="flex items-center gap-1.5 text-slate-600 font-medium">
+                  <span class="w-3 h-3 rounded-xs bg-teal-500/85 inline-block"></span>
+                  New Admissions
+                </span>
+                <span class="flex items-center gap-1.5 text-slate-600 font-medium">
+                  <span class="w-3 h-0.5 bg-indigo-600 inline-block relative">
+                    <span class="w-2 h-2 rounded-full bg-indigo-600 absolute -top-[3px] left-0.5"></span>
+                  </span>
+                  Completed Protocols
+                </span>
+              </div>
+            </div>
+
+            <!-- SVG Chart Container -->
+            <div class="relative w-full">
+              <svg id="hybrid-throughput-svg" viewBox="0 0 640 240" class="w-full h-auto overflow-visible" role="img" aria-label="7-Day Admissions vs Completed Treatments Chart"></svg>
+              <!-- Floating Tooltip for Bar/Line Chart -->
+              <div id="throughput-tooltip" class="hidden pointer-events-none absolute z-20 bg-slate-900 text-white text-xs rounded-xl px-3 py-2 shadow-lg border border-slate-700 transition-opacity duration-150"></div>
+            </div>
+          </div>
+
+          <!-- Chart 2: Active Protocols by Department (Donut Breakdown SVG) -->
+          <div class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <div>
+                <h2 class="text-sm font-bold text-slate-900">Active Protocols by Department</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Click a specialty segment to filter the treatment table</p>
+              </div>
+              <button
+                id="btn-clear-dept-filter"
+                onclick="setDepartmentFilter('All')"
+                class="hidden text-xs font-semibold text-teal-600 hover:text-teal-800 bg-teal-50 px-2.5 py-1 rounded-lg transition-colors"
+              >
+                Reset Filter
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-12 items-center gap-4 my-auto">
+              <!-- Donut SVG -->
+              <div class="sm:col-span-6 flex items-center justify-center relative">
+                <svg id="department-donut-svg" viewBox="0 0 220 220" class="w-44 h-44 sm:w-48 sm:h-48 overflow-visible" role="img" aria-label="Active Protocols by Department Donut Chart"></svg>
+              </div>
+
+              <!-- Interactive Legend -->
+              <div id="department-legend" class="sm:col-span-6 space-y-2">
+                <!-- Populated dynamically via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- PHARMACY & ORDERS VIEW PANEL (SHOWN WHEN PHARMACY TAB ACTIVE)   -->
+        <!-- =============================================================== -->
+        <section id="pharmacy-orders-panel" class="hidden bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Inpatient Pharmacy Queue</span>
+              <h2 class="text-base font-bold text-slate-900">Pending Medication Administration & Verification Orders</h2>
+            </div>
+            <span class="text-xs text-slate-500">Click <strong>Administer Dose</strong> to verify & log directly to the patient's MAR</span>
+          </div>
+          <div id="pharmacy-orders-list" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- INTERACTIVE TREATMENT MANAGEMENT TABLE                          -->
+        <!-- =============================================================== -->
+        <section aria-label="Patient Treatment Protocols" class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+          <!-- Table Toolbar: Search & Status Filter Tabs -->
+          <div class="p-4 sm:p-5 border-b border-slate-200/80 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div>
+                <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <span>Inpatient Treatment Registry</span>
+                  <span id="active-dept-pill" class="hidden text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800"></span>
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Select any patient row to open live vitals, medication checklist, and progress notes</p>
+              </div>
+
+              <!-- Live Search Input -->
+              <div class="relative w-full md:w-80">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  id="table-search-input"
+                  type="text"
+                  oninput="handleSearchInput(this.value)"
+                  placeholder="Search patient, MRN, diagnosis, doctor..."
+                  class="w-full pl-10 pr-8 py-2 rounded-xl text-xs sm:text-sm bg-slate-50 border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all"
+                />
+                <button
+                  id="btn-clear-search"
+                  onclick="clearSearchInput()"
+                  class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+                  aria-label="Clear search"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Status Filter Tabs -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1" role="tablist" aria-label="Filter treatments by status">
+              <button onclick="setStatusFilter('All')" data-status="All" class="status-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition-all whitespace-nowrap cursor-pointer">
+                All <span id="count-All" class="ml-1 font-mono opacity-80">10</span>
+              </button>
+              <button onclick="setStatusFilter('Critical')" data-status="Critical" class="status-tab px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-all whitespace-nowrap cursor-pointer">
+                Critical <span id="count-Critical" class="ml-1 font-mono opacity-80">4</span>
+              </button>
+              <button onclick="setStatusFilter('In Progress')" data-status="In Progress" class="status-tab px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-all whitespace-nowrap cursor-pointer">
+                In Progress <span id="count-In Progress" class="ml-1 font-mono opacity-80">3</span>
+              </button>
+              <button onclick="setStatusFilter('Scheduled')" data-status="Scheduled" class="status-tab px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-all whitespace-nowrap cursor-pointer">
+                Scheduled <span id="count-Scheduled" class="ml-1 font-mono opacity-80">2</span>
+              </button>
+              <button onclick="setStatusFilter('Discharged')" data-status="Discharged" class="status-tab px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-all whitespace-nowrap cursor-pointer">
+                Discharged <span id="count-Discharged" class="ml-1 font-mono opacity-80">1</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Responsive Table Wrapper -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/90 border-b border-slate-200/80 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  <th class="py-3.5 px-4 sm:px-5">Patient & MRN</th>
+                  <th class="py-3.5 px-4">Clinical Diagnosis</th>
+                  <th class="py-3.5 px-4">Treatment Protocol</th>
+                  <th class="py-3.5 px-4">Adherence</th>
+                  <th class="py-3.5 px-4">Attending</th>
+                  <th class="py-3.5 px-4">Status</th>
+                  <th class="py-3.5 px-4 text-right">Chart</th>
+                </tr>
+              </thead>
+              <tbody id="treatment-table-body" class="divide-y divide-slate-100 text-sm">
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State (shown when search/filters match 0 records) -->
+          <div id="table-empty-state" class="hidden py-12 px-4 text-center">
+            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-slate-900">No matching clinical treatments found</h3>
+            <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Try adjusting your search query, status filter tab, or department filter.</p>
+            <button onclick="resetAllTableFilters()" class="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-teal-600 text-white hover:bg-teal-700 transition-colors">
+              Reset All Filters
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 4. INTERACTIVE CLINICAL DETAIL SLIDE-OVER DRAWER                      -->
+  <!-- ===================================================================== -->
+  <div id="patient-drawer-overlay" class="hidden fixed inset-0 z-50 overflow-hidden" aria-labelledby="drawer-patient-name" role="dialog" aria-modal="true">
+    <!-- Backdrop -->
+    <div onclick="closePatientDrawer()" class="fixed inset-0 bg-slate-900/45 backdrop-blur-xs transition-opacity"></div>
+
+    <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div class="w-screen max-w-xl bg-white shadow-2xl border-l border-slate-200 flex flex-col justify-between overflow-hidden">
+        <!-- Drawer Top Header -->
+        <div class="px-5 sm:px-6 py-4 bg-slate-900 text-white flex items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="drawer-mrn" class="font-mono text-xs px-2 py-0.5 rounded-md bg-slate-800 text-teal-300 border border-slate-700">MRN-00000</span>
+              <span id="drawer-dept" class="text-xs font-medium text-slate-300">Department</span>
+            </div>
+            <h2 id="drawer-patient-name" class="text-lg sm:text-xl font-bold mt-1.5">Patient Name</h2>
+            <p id="drawer-demographics" class="text-xs text-slate-400 mt-0.5">Age • Sex • Blood Type • Room</p>
+          </div>
+          <button onclick="closePatientDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors" aria-label="Close Clinical Drawer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Drawer Scrollable Clinical Content -->
+        <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
+          <!-- Diagnosis & Status Control -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Primary Diagnosis & Protocol</div>
+              <div id="drawer-diagnosis" class="text-sm font-bold text-slate-900 mt-0.5">Diagnosis</div>
+              <div id="drawer-protocol" class="text-xs font-medium text-teal-700 mt-0.5">Protocol</div>
+            </div>
+            <div class="shrink-0">
+              <label for="drawer-status-select" class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Acuity Status</label>
+              <select
+                id="drawer-status-select"
+                onchange="updatePatientStatus(this.value)"
+                class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-teal-500"
+              >
+                <option value="Critical">Critical</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Discharged">Discharged</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Live Telemetry Vitals Grid -->
+          <div>
+            <div class="flex items-center justify-between mb-2.5">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-clinical-pulse"></span>
+                Bedside Telemetry Vitals
+              </h3>
+              <span class="text-[11px] font-mono text-slate-400">Updated 2m ago</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="p-3 rounded-xl bg-white border border-slate-200/90 shadow-2xs">
+                <div class="text-[11px] font-medium text-slate-500">Blood Pressure</div>
+                <div id="vital-bp" class="text-base font-bold font-mono text-slate-900 mt-1">120/80</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">mmHg</div>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-slate-200/90 shadow-2xs">
+                <div class="text-[11px] font-medium text-slate-500">Heart Rate</div>
+                <div id="vital-hr" class="text-base font-bold font-mono text-slate-900 mt-1">78</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">bpm (Sinus)</div>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-slate-200/90 shadow-2xs">
+                <div class="text-[11px] font-medium text-slate-500">SpO2 Sat</div>
+                <div id="vital-spo2" class="text-base font-bold font-mono text-teal-700 mt-1">98%</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Room Air / O2</div>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-slate-200/90 shadow-2xs">
+                <div class="text-[11px] font-medium text-slate-500">Core Temp</div>
+                <div id="vital-temp" class="text-base font-bold font-mono text-slate-900 mt-1">36.9°C</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Tympanic</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Medication Administration Record (MAR) Checklist -->
+          <div>
+            <div class="flex items-center justify-between mb-2.5">
+              <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Medication Administration Checklist</h3>
+                <p class="text-[11px] text-slate-400">Toggle scheduled doses to update protocol adherence in real time</p>
+              </div>
+              <span id="drawer-adherence-badge" class="font-mono text-xs font-bold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+                100%
+              </span>
+            </div>
+            <div id="drawer-meds-list" class="space-y-2">
+              <!-- Populated dynamically via JS -->
+            </div>
+          </div>
+
+          <!-- Physician Progress Notes -->
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">Physician Progress Notes</h3>
+            <div id="drawer-notes-list" class="space-y-2.5 mb-3 max-h-48 overflow-y-auto pr-1">
+              <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Add New Clinical Note Form -->
+            <form onsubmit="handleAddClinicalNote(event)" class="bg-slate-50 p-3 rounded-2xl border border-slate-200/80 space-y-2">
+              <label for="new-clinical-note-input" class="block text-xs font-semibold text-slate-700">Append Signed Clinical Note</label>
+              <textarea
+                id="new-clinical-note-input"
+                rows="2"
+                required
+                placeholder="Enter clinical observation, lab interpretation, or protocol adjustment..."
+                class="w-full px-3 py-2 rounded-xl text-xs bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+              ></textarea>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] text-slate-400">Signing as Dr. Claire Moreau, MD</span>
+                <button type="submit" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-teal-600 hover:bg-teal-700 text-white transition-colors cursor-pointer">
+                  Sign & Append Note
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 5. '+ ASSIGN TREATMENT' MODAL                                         -->
+  <!-- ===================================================================== -->
+  <div id="assign-treatment-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="assign-modal-title">
+    <div onclick="closeAssignModal()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs"></div>
+
+    <div class="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden z-10">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-teal-400">New Inpatient Order</span>
+          <h2 id="assign-modal-title" class="text-base font-bold">Assign Clinical Treatment Protocol</h2>
+        </div>
+        <button onclick="closeAssignModal()" class="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white" aria-label="Close Modal">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <form onsubmit="handleAssignTreatmentSubmit(event)" class="p-6 space-y-4 text-xs sm:text-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label for="input-patient-name" class="block text-xs font-semibold text-slate-700 mb-1">Patient Full Name *</label>
+            <input id="input-patient-name" type="text" required placeholder="e.g., Henrik Lindqvist" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500" />
+          </div>
+          <div>
+            <label for="input-patient-demo" class="block text-xs font-semibold text-slate-700 mb-1">Age / Sex *</label>
+            <input id="input-patient-demo" type="text" required placeholder="e.g., 54M" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="input-department" class="block text-xs font-semibold text-slate-700 mb-1">Clinical Department *</label>
+            <select id="input-department" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500">
+              <option value="Cardiology">Cardiology</option>
+              <option value="Oncology">Oncology</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Orthopedics">Orthopedics</option>
+            </select>
+          </div>
+          <div>
+            <label for="input-status" class="block text-xs font-semibold text-slate-700 mb-1">Initial Acuity Status *</label>
+            <select id="input-status" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500">
+              <option value="In Progress">In Progress</option>
+              <option value="Critical">Critical (Triage Alert)</option>
+              <option value="Scheduled">Scheduled</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="input-diagnosis" class="block text-xs font-semibold text-slate-700 mb-1">Primary Clinical Diagnosis *</label>
+          <input id="input-diagnosis" type="text" required placeholder="e.g., Acute Decompensated Heart Failure" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500" />
+        </div>
+
+        <div>
+          <label for="input-protocol" class="block text-xs font-semibold text-slate-700 mb-1">Structured Treatment Protocol *</label>
+          <input id="input-protocol" type="text" required placeholder="e.g., IV Nitroglycerin + Telemetry + Fluid Restriction" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="input-doctor" class="block text-xs font-semibold text-slate-700 mb-1">Attending Physician *</label>
+            <select id="input-doctor" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500">
+              <option value="Dr. Julian Mercer">Dr. Julian Mercer (Cardiology)</option>
+              <option value="Dr. Priya Nair">Dr. Priya Nair (Oncology)</option>
+              <option value="Dr. Aris Thorne">Dr. Aris Thorne (Neurology)</option>
+              <option value="Dr. Hannah Lindqvist">Dr. Hannah Lindqvist (Orthopedics)</option>
+            </select>
+          </div>
+          <div>
+            <label for="input-initial-med" class="block text-xs font-semibold text-slate-700 mb-1">Primary MAR Medication *</label>
+            <input id="input-initial-med" type="text" required placeholder="e.g., Furosemide 40mg IV q12h" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-teal-500" />
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeAssignModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-semibold bg-teal-600 hover:bg-teal-700 text-white shadow-xs transition-colors cursor-pointer">
+            Activate Protocol
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 6. NON-INTRUSIVE CLINICAL TOAST NOTIFICATION                          -->
+  <!-- ===================================================================== -->
+  <div id="clinical-toast" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-200">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 flex items-center gap-2.5 text-xs font-medium">
+      <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+      <span id="clinical-toast-message">Action completed</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 7. APPLICATION STATE & INTERACTIVE CLINICAL ENGINE (JAVASCRIPT)       -->
+  <!-- ===================================================================== -->
+  <script>
+    // -------------------------------------------------------------------------
+    // A. CENTRALIZED REACTIVE CLINICAL STATE
+    // -------------------------------------------------------------------------
+    const appState = {
+      modelEra: '2026',          // '2023' | '2026'
+      activeNav: 'overview',     // 'overview' | 'protocols' | 'triage' | 'pharmacy'
+      searchQuery: '',
+      statusFilter: 'All',
+      departmentFilter: 'All',
+      selectedPatientId: null,
+      baselineActiveCount: 132,  // Base ward census outside the 10 highlighted table patients (132 + 10 = 142)
+
+      // 7-Day Telemetry Data for Hybrid Bar/Line Chart
+      weeklyTelemetry: [
+        { day: 'Mon', admissions: 24, completed: 19 },
+        { day: 'Tue', admissions: 28, completed: 22 },
+        { day: 'Wed', admissions: 22, completed: 25 },
+        { day: 'Thu', admissions: 31, completed: 26 },
+        { day: 'Fri', admissions: 29, completed: 27 },
+        { day: 'Sat', admissions: 19, completed: 21 },
+        { day: 'Sun', admissions: 23, completed: 20 }
+      ],
+
+      // Realistic Inpatient Treatment Records (10 Clinical Cases)
+      patients: [
+        {
+          id: 'PT-101',
+          mrn: 'MRN-88412',
+          name: 'Elena Rostova',
+          demographics: '64F • Blood Type A+ • Neuro ICU Bed 04',
+          department: 'Neurology',
+          diagnosis: 'Acute Ischemic Stroke (Left MCA)',
+          protocol: 'Alteplase IV + q15m Neuro-Monitoring',
+          doctor: 'Dr. Aris Thorne',
+          status: 'Critical',
+          vitals: { bp: '164/92', hr: '88', spo2: '96%', temp: '37.1°C' },
+          medications: [
+            { id: 'm1', name: 'Alteplase (tPA) 0.9 mg/kg IV Infusion', time: '06:30', given: true },
+            { id: 'm2', name: 'Labetalol 10mg IV Push (BP < 180/105)', time: '07:15', given: true },
+            { id: 'm3', name: 'Normal Saline 0.9% Maintenance 75mL/hr', time: '08:00', given: true },
+            { id: 'm4', name: 'NIHSS Neuro Re-Assessment & Pupillometry', time: '09:00', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Aris Thorne', time: '07:40 AM', text: 'Post-thrombolysis CT head negative for hemorrhagic conversion. Mild right-sided pronator drift improving.' }
+          ]
+        },
+        {
+          id: 'PT-102',
+          mrn: 'MRN-88419',
+          name: 'Marcus Vance',
+          demographics: '52M • Blood Type O+ • Oncology Suite 12',
+          department: 'Oncology',
+          diagnosis: 'Stage II HER2+ Breast Carcinoma',
+          protocol: 'Trastuzumab + Pertuzumab Cycle 4',
+          doctor: 'Dr. Priya Nair',
+          status: 'In Progress',
+          vitals: { bp: '124/78', hr: '74', spo2: '99%', temp: '36.7°C' },
+          medications: [
+            { id: 'm1', name: 'Diphenhydramine 25mg IV Pre-Med', time: '07:00', given: true },
+            { id: 'm2', name: 'Pertuzumab 420mg IV over 60 mins', time: '07:30', given: true },
+            { id: 'm3', name: 'Trastuzumab 6 mg/kg IV Infusion', time: '08:45', given: true },
+            { id: 'm4', name: 'Ondansetron 8mg PO Post-Infusion', time: '10:30', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Priya Nair', time: '08:15 AM', text: 'Echocardiogram LVEF stable at 62%. Tolerating Cycle 4 targeted HER2 blockade without infusion reaction.' }
+          ]
+        },
+        {
+          id: 'PT-103',
+          mrn: 'MRN-88425',
+          name: 'Sophia Chen',
+          demographics: '71F • Blood Type B+ • CCU Bed 02',
+          department: 'Cardiology',
+          diagnosis: 'NSTEMI / Acute Coronary Syndrome',
+          protocol: 'Dual Antiplatelet + Unfractionated Heparin Drip',
+          doctor: 'Dr. Julian Mercer',
+          status: 'Critical',
+          vitals: { bp: '108/66', hr: '94', spo2: '95%', temp: '36.8°C' },
+          medications: [
+            { id: 'm1', name: 'Aspirin 325mg Chewable Loading Dose', time: '05:45', given: true },
+            { id: 'm2', name: 'Ticagrelor 180mg PO Loading Dose', time: '06:00', given: true },
+            { id: 'm3', name: 'Heparin IV Titrated Drip (aPTT Goal 60-80s)', time: '06:30', given: true },
+            { id: 'm4', name: 'Atorvastatin 80mg PO High-Intensity', time: '09:00', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Julian Mercer', time: '07:50 AM', text: 'High-sensitivity Troponin-I peaked at 1,420 ng/L. Scheduled for diagnostic coronary angiography at 13:00.' }
+          ]
+        },
+        {
+          id: 'PT-104',
+          mrn: 'MRN-88431',
+          name: 'David K. Okafor',
+          demographics: '45M • Blood Type O- • Ortho Wing 308',
+          department: 'Orthopedics',
+          diagnosis: 'Septic Arthritis (Right Knee)',
+          protocol: 'IV Vancomycin + Post-Arthroscopic Lavage',
+          doctor: 'Dr. Hannah Lindqvist',
+          status: 'In Progress',
+          vitals: { bp: '128/82', hr: '80', spo2: '98%', temp: '37.4°C' },
+          medications: [
+            { id: 'm1', name: 'Vancomycin 1.25g IV q12h (Trough Goal 15-20)', time: '06:00', given: true },
+            { id: 'm2', name: 'Cefepime 2g IV q8h Broad-Spectrum Coverage', time: '08:00', given: true },
+            { id: 'm3', name: 'Enoxaparin 40mg SubQ DVT Prophylaxis', time: '09:00', given: true },
+            { id: 'm4', name: 'Acetaminophen 1000mg IV q6h PRN', time: '12:00', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Hannah Lindqvist', time: '08:30 AM', text: 'Synovial fluid cultures growing MSSA; narrowing antibiotic regimen to IV Cefazolin after pharmacy trough review.' }
+          ]
+        },
+        {
+          id: 'PT-105',
+          mrn: 'MRN-88438',
+          name: 'Amara Patel',
+          demographics: '58F • Blood Type A- • Telemetry 411',
+          department: 'Cardiology',
+          diagnosis: 'Decompensated Heart Failure (HFrEF)',
+          protocol: 'IV Furosemide Titration + GDMT Optimization',
+          doctor: 'Dr. Julian Mercer',
+          status: 'In Progress',
+          vitals: { bp: '116/72', hr: '76', spo2: '97%', temp: '36.6°C' },
+          medications: [
+            { id: 'm1', name: 'Furosemide 40mg IV BID (Net Negative 1.5L Goal)', time: '07:00', given: true },
+            { id: 'm2', name: 'Sacubitril/Valsartan 24/26mg PO BID', time: '08:00', given: true },
+            { id: 'm3', name: 'Dapagliflozin 10mg PO Daily', time: '08:00', given: true },
+            { id: 'm4', name: 'Potassium Chloride 20 mEq PO Repletion', time: '10:00', given: true }
+          ],
+          notes: [
+            { author: 'Dr. Julian Mercer', time: '08:05 AM', text: 'Net fluid output -1,650 mL over past 24h. Jugular venous distension markedly reduced; ambulating without dyspnea.' }
+          ]
+        },
+        {
+          id: 'PT-106',
+          mrn: 'MRN-88444',
+          name: 'Thomas Sterling',
+          demographics: '67M • Blood Type AB+ • Oncology Suite 05',
+          department: 'Oncology',
+          diagnosis: 'Non-Small Cell Lung Carcinoma (PD-L1 High)',
+          protocol: 'Pembrolizumab 200mg q3w Immunotherapy',
+          doctor: 'Dr. Priya Nair',
+          status: 'Scheduled',
+          vitals: { bp: '132/80', hr: '72', spo2: '96%', temp: '36.8°C' },
+          medications: [
+            { id: 'm1', name: 'Baseline TSH / Cortisol / LFT Panel Check', time: '08:30', given: true },
+            { id: 'm2', name: 'Pembrolizumab 200mg IV over 30 mins', time: '11:00', given: false },
+            { id: 'm3', name: 'Saline Flush & Port-a-Cath Heparin Lock', time: '11:45', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Priya Nair', time: '08:40 AM', text: 'Pre-infusion labs within normal limits. No signs of immune-mediated pneumonitis or thyroiditis.' }
+          ]
+        },
+        {
+          id: 'PT-107',
+          mrn: 'MRN-88450',
+          name: 'Clara Beaumont',
+          demographics: '39F • Blood Type O+ • Neuro ICU Bed 07',
+          department: 'Neurology',
+          diagnosis: 'Refractory Status Epilepticus',
+          protocol: 'Levetiracetam Load + Continuous Video EEG',
+          doctor: 'Dr. Aris Thorne',
+          status: 'Critical',
+          vitals: { bp: '112/70', hr: '102', spo2: '97%', temp: '37.3°C' },
+          medications: [
+            { id: 'm1', name: 'Lorazepam 4mg IV Emergent Rescue', time: '04:20', given: true },
+            { id: 'm2', name: 'Levetiracetam 60 mg/kg IV Load', time: '04:45', given: true },
+            { id: 'm3', name: 'Lacosamide 200mg IV Adjunctive Load', time: '06:30', given: true },
+            { id: 'm4', name: 'Thiamine 100mg IV + Dextrose Protocol', time: '09:30', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Aris Thorne', time: '07:10 AM', text: 'Electrographic seizures aborted on continuous EEG. Maintaining burst-free background rhythm for past 180 minutes.' }
+          ]
+        },
+        {
+          id: 'PT-108',
+          mrn: 'MRN-88456',
+          name: 'Mateo Alvarez',
+          demographics: '61M • Blood Type B- • Ortho Wing 314',
+          department: 'Orthopedics',
+          diagnosis: 'Bilateral Total Knee Arthroplasty (Post-Op Day 2)',
+          protocol: 'Multimodal Analgesia + Early Ambulation PT',
+          doctor: 'Dr. Hannah Lindqvist',
+          status: 'Discharged',
+          vitals: { bp: '122/76', hr: '70', spo2: '99%', temp: '36.6°C' },
+          medications: [
+            { id: 'm1', name: 'Celecoxib 200mg PO BID', time: '07:00', given: true },
+            { id: 'm2', name: 'Apixaban 2.5mg PO BID (VTE Prophylaxis)', time: '08:00', given: true },
+            { id: 'm3', name: 'Physical Therapy Stair & Gait Clearance', time: '09:30', given: true }
+          ],
+          notes: [
+            { author: 'Dr. Hannah Lindqvist', time: '09:55 AM', text: 'Cleared by Inpatient PT; ambulated 150 ft with walker. Discharged home with outpatient rehab schedule.' }
+          ]
+        },
+        {
+          id: 'PT-109',
+          mrn: 'MRN-88462',
+          name: 'Evelyn Hayes',
+          demographics: '76F • Blood Type A+ • CCU Bed 06',
+          department: 'Cardiology',
+          diagnosis: 'Atrial Fibrillation w/ Rapid Ventricular Response',
+          protocol: 'Diltiazem IV Infusion + Apixaban Anticoagulation',
+          doctor: 'Dr. Julian Mercer',
+          status: 'Critical',
+          vitals: { bp: '104/64', hr: '118', spo2: '95%', temp: '36.9°C' },
+          medications: [
+            { id: 'm1', name: 'Diltiazem 0.25 mg/kg IV Bolus', time: '06:15', given: true },
+            { id: 'm2', name: 'Diltiazem Continuous Drip 10 mg/hr', time: '06:30', given: true },
+            { id: 'm3', name: 'Magnesium Sulfate 2g IV Electrolyte Support', time: '07:45', given: true },
+            { id: 'm4', name: 'Apixaban 5mg PO BID Transition Dose', time: '10:00', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Julian Mercer', time: '08:20 AM', text: 'Ventricular rate trending down from 148 bpm to 118 bpm. Preparing oral diltiazem bridge once rate < 100 bpm.' }
+          ]
+        },
+        {
+          id: 'PT-110',
+          mrn: 'MRN-88470',
+          name: 'Noah Lindholm',
+          demographics: '29M • Blood Type O+ • Ortho Wing 302',
+          department: 'Orthopedics',
+          diagnosis: 'Acute L4-L5 Lumbar Radiculopathy',
+          protocol: 'Fluoroscopic Epidural Steroid + Core Rehab',
+          doctor: 'Dr. Hannah Lindqvist',
+          status: 'Scheduled',
+          vitals: { bp: '118/74', hr: '68', spo2: '99%', temp: '36.7°C' },
+          medications: [
+            { id: 'm1', name: 'Gabapentin 300mg PO Neuropathic Control', time: '08:00', given: true },
+            { id: 'm2', name: 'Dexamethasone 10mg Epidural Injection', time: '11:30', given: false },
+            { id: 'm3', name: 'Post-Procedure Motor/Sensory Check', time: '12:30', given: false }
+          ],
+          notes: [
+            { author: 'Dr. Hannah Lindqvist', time: '08:10 AM', text: 'MRI confirms left paracentral L4-L5 extrusion without cauda equina compression. Scheduled for interventional suite.' }
+          ]
+        }
+      ]
+    };
+
+    // Department color mapping for consistent badges & donut chart
+    const DEPT_COLORS = {
+      Cardiology: { hex: '#0d9488', bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200', dot: 'bg-teal-600' },
+      Oncology:   { hex: '#4f46e5', bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', dot: 'bg-indigo-600' },
+      Neurology:  { hex: '#0284c7', bg: 'bg-sky-50', text: 'text-sky-700', border: 'border-sky-200', dot: 'bg-sky-600' },
+      Orthopedics:{ hex: '#d97706', bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', dot: 'bg-amber-600' }
+    };
+
+    // -------------------------------------------------------------------------
+    // B. TOP SHOWCASE BAR & DIFF POPOVER HANDLERS
+    // -------------------------------------------------------------------------
+    function switchModelEra(era) {
+      appState.modelEra = era;
+      const view2023 = document.getElementById('view-2023');
+      const view2026 = document.getElementById('view-2026');
+      const btn2023 = document.getElementById('btn-mode-2023');
+      const btn2026 = document.getElementById('btn-mode-2026');
+
+      if (era === '2023') {
+        view2023.classList.remove('hidden');
+        view2026.classList.add('hidden');
+        btn2023.className = 'px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-amber-500 text-slate-950 shadow-md flex items-center gap-1.5';
+        btn2023.setAttribute('aria-selected', 'true');
+        btn2026.className = 'px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white flex items-center gap-1.5';
+        btn2026.setAttribute('aria-selected', 'false');
+      } else {
+        view2023.classList.add('hidden');
+        view2026.classList.remove('hidden');
+        btn2026.className = 'px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-teal-600 text-white shadow-md flex items-center gap-1.5';
+        btn2026.setAttribute('aria-selected', 'true');
+        btn2023.className = 'px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white flex items-center gap-1.5';
+        btn2023.setAttribute('aria-selected', 'false');
+        renderAll();
+      }
+    }
+
+    function toggleDiffPopover(forceState) {
+      const popover = document.getElementById('diff-notes-popover');
+      const btn = document.getElementById('btn-diff-notes');
+      const isHidden = popover.classList.contains('hidden');
+      const shouldShow = typeof forceState === 'boolean' ? forceState : isHidden;
+
+      if (shouldShow) {
+        popover.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        popover.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    // Close popover when clicking outside
+    document.addEventListener('click', (e) => {
+      const popover = document.getElementById('diff-notes-popover');
+      const btn = document.getElementById('btn-diff-notes');
+      if (!popover.classList.contains('hidden') && !popover.contains(e.target) && !btn.contains(e.target)) {
+        toggleDiffPopover(false);
+      }
+    });
+
+    // Keyboard Escape closes drawers, modals, and popovers
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        toggleDiffPopover(false);
+        closePatientDrawer();
+        closeAssignModal();
+        toggleMobileSidebar(false);
+      }
+    });
+
+    // -------------------------------------------------------------------------
+    // C. SIDEBAR NAVIGATION & VIEW SWITCHING
+    // -------------------------------------------------------------------------
+    function toggleMobileSidebar(open) {
+      const sidebar = document.getElementById('medcore-sidebar');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+      if (open) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function selectNavTab(navKey) {
+      appState.activeNav = navKey;
+      toggleMobileSidebar(false);
+
+      // Update Sidebar Active Styling
+      document.querySelectorAll('.nav-item').forEach((el) => {
+        const isMatch = el.getAttribute('data-nav') === navKey;
+        if (isMatch) {
+          el.className = 'nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold bg-teal-50 text-teal-800 border border-teal-200/70 transition-all';
+        } else {
+          el.className = 'nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all';
+        }
+      });
+
+      const heading = document.getElementById('workspace-heading');
+      const subheading = document.getElementById('workspace-subheading');
+      const chartsSection = document.getElementById('charts-section');
+      const pharmacyPanel = document.getElementById('pharmacy-orders-panel');
+
+      if (navKey === 'overview') {
+        heading.textContent = 'Clinical Treatment Overview';
+        subheading.textContent = 'St. Jude Medical Center • Inpatient & Acute Specialty Protocols';
+        chartsSection.classList.remove('hidden');
+        pharmacyPanel.classList.add('hidden');
+        setStatusFilter('All');
+      } else if (navKey === 'protocols') {
+        heading.textContent = 'Active Treatment Protocols';
+        subheading.textContent = 'Live inpatient regimens across Cardiology, Oncology, Neurology & Orthopedics';
+        chartsSection.classList.add('hidden');
+        pharmacyPanel.classList.add('hidden');
+        setStatusFilter('In Progress');
+      } else if (navKey === 'triage') {
+        heading.textContent = 'Critical Triage Escalation Queue';
+        subheading.textContent = 'High-acuity patients requiring continuous telemetry & rapid intervention';
+        chartsSection.classList.add('hidden');
+        pharmacyPanel.classList.add('hidden');
+        setStatusFilter('Critical');
+      } else if (navKey === 'pharmacy') {
+        heading.textContent = 'Pharmacy & Inpatient MAR Orders';
+        subheading.textContent = 'Pending scheduled doses & real-time medication administration verification';
+        chartsSection.classList.add('hidden');
+        pharmacyPanel.classList.remove('hidden');
+        setStatusFilter('All');
+        renderPharmacyOrdersPanel();
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // D. KPI CALCULATIONS & ADHERENCE METRICS
+    // -------------------------------------------------------------------------
+    function getPatientAdherence(patient) {
+      if (!patient.medications || patient.medications.length === 0) return 100;
+      const givenCount = patient.medications.filter((m) => m.given).length;
+      return Math.round((givenCount / patient.medications.length) * 100);
+    }
+
+    function updateKPIsAndBadges() {
+      const nonDischarged = appState.patients.filter((p) => p.status !== 'Discharged').length;
+      const totalActive = appState.baselineActiveCount + nonDischarged;
+      const criticalCount = appState.patients.filter((p) => p.status === 'Critical').length;
+
+      // Calculate dynamic adherence across all patient medications
+      let totalMeds = 0;
+      let givenMeds = 0;
+      appState.patients.forEach((p) => {
+        p.medications.forEach((m) => {
+          totalMeds++;
+          if (m.given) givenMeds++;
+        });
+      });
+      const pendingMeds = totalMeds - givenMeds;
+      // Blend baseline ward adherence (95.4%) with live tracked patient MAR ratio
+      const liveRatio = totalMeds > 0 ? (givenMeds / totalMeds) * 100 : 95;
+      const blendedAdherence = (95.4 * 0.75 + liveRatio * 0.25).toFixed(1);
+
+      document.getElementById('kpi-active-treatments').textContent = totalActive;
+      document.getElementById('kpi-critical-alerts').textContent = criticalCount;
+      document.getElementById('kpi-adherence-rate').textContent = `${blendedAdherence}%`;
+
+      // Update Sidebar Badges
+      document.getElementById('nav-badge-active').textContent = nonDischarged;
+      document.getElementById('nav-badge-critical').textContent = criticalCount;
+      document.getElementById('nav-badge-pending-doses').textContent = pendingMeds;
+
+      // Update Status Tab Counters
+      const statuses = ['All', 'Critical', 'In Progress', 'Scheduled', 'Discharged'];
+      statuses.forEach((st) => {
+        const count = st === 'All'
+          ? appState.patients.length
+          : appState.patients.filter((p) => p.status === st).length;
+        const badge = document.getElementById(`count-${st}`);
+        if (badge) badge.textContent = count;
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // E. CUSTOM RESPONSIVE SVG DATA VISUALIZATIONS
+    // -------------------------------------------------------------------------
+    function renderHybridThroughputChart() {
+      const svg = document.getElementById('hybrid-throughput-svg');
+      const data = appState.weeklyTelemetry;
+      const width = 640;
+      const height = 240;
+      const padLeft = 36;
+      const padRight = 20;
+      const padTop = 20;
+      const padBottom = 34;
+      const chartW = width - padLeft - padRight;
+      const chartH = height - padTop - padBottom;
+      const maxVal = 36;
+
+      let html = '';
+
+      // Horizontal Gridlines & Y-Axis Labels
+      [0, 9, 18, 27, 36].forEach((val) => {
+        const y = padTop + chartH - (val / maxVal) * chartH;
+        html += `<line x1="${padLeft}" y1="${y}" x2="${width - padRight}" y2="${y}" stroke="#e2e8f0" stroke-dasharray="${val === 0 ? '0' : '4 4'}" stroke-width="1" />`;
+        html += `<text x="${padLeft - 8}" y="${y + 4}" text-anchor="end" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">${val}</text>`;
+      });
+
+      const slotW = chartW / data.length;
+      const barW = Math.min(34, slotW * 0.48);
+      const linePoints = [];
+
+      // Bars (Admissions) & X-Axis Labels
+      data.forEach((d, idx) => {
+        const centerX = padLeft + slotW * idx + slotW / 2;
+        const barH = (d.admissions / maxVal) * chartH;
+        const barY = padTop + chartH - barH;
+        const barX = centerX - barW / 2;
+
+        const lineY = padTop + chartH - (d.completed / maxVal) * chartH;
+        linePoints.push({ x: centerX, y: lineY, ...d });
+
+        // Bar with rounded top corners
+        html += `
+          <rect
+            x="${barX}"
+            y="${barY}"
+            width="${barW}"
+            height="${barH}"
+            rx="6"
+            fill="#14b8a6"
+            fill-opacity="0.82"
+            class="transition-all duration-200 hover:fill-opacity-100 cursor-pointer"
+          />
+        `;
+
+        // X-axis day label
+        html += `<text x="${centerX}" y="${height - 10}" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">${d.day}</text>`;
+      });
+
+      // Smooth Line Path (Completed Protocols)
+      if (linePoints.length > 0) {
+        let pathD = `M ${linePoints[0].x} ${linePoints[0].y}`;
+        for (let i = 0; i < linePoints.length - 1; i++) {
+          const p0 = linePoints[i];
+          const p1 = linePoints[i + 1];
+          const midX = (p0.x + p1.x) / 2;
+          pathD += ` C ${midX} ${p0.y}, ${midX} ${p1.y}, ${p1.x} ${p1.y}`;
+        }
+        html += `<path d="${pathD}" fill="none" stroke="#4f46e5" stroke-width="2.8" stroke-linecap="round" />`;
+      }
+
+      // Data Points + Invisible Hover Hit Zones for Smooth Tooltip
+      linePoints.forEach((pt, idx) => {
+        const zoneX = padLeft + slotW * idx;
+        html += `
+          <circle cx="${pt.x}" cy="${pt.y}" r="4.5" fill="#ffffff" stroke="#4f46e5" stroke-width="2.5" />
+          <rect
+            x="${zoneX}"
+            y="${padTop}"
+            width="${slotW}"
+            height="${chartH}"
+            fill="transparent"
+            class="cursor-pointer"
+            onmouseenter="showThroughputTooltip(event, '${pt.day}', ${pt.admissions}, ${pt.completed}, ${pt.x}, ${pt.y})"
+            onmouseleave="hideThroughputTooltip()"
+          />
+        `;
+      });
+
+      svg.innerHTML = html;
+    }
+
+    function showThroughputTooltip(evt, day, admissions, completed, svgX, svgY) {
+      const tooltip = document.getElementById('throughput-tooltip');
+      const net = completed - admissions;
+      const netLabel = net >= 0 ? `+${net} net clearance` : `${net} ward census delta`;
+      tooltip.innerHTML = `
+        <div class="font-bold text-teal-300 mb-1">${day} Clinical Throughput</div>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-slate-300">Admissions:</span>
+          <span class="font-mono font-bold">${admissions}</span>
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-slate-300">Completed:</span>
+          <span class="font-mono font-bold text-indigo-300">${completed}</span>
+        </div>
+        <div class="mt-1 pt-1 border-t border-slate-700 text-[10px] text-slate-400">${netLabel}</div>
+      `;
+      tooltip.classList.remove('hidden');
+
+      // Position relative to SVG container
+      const pctX = Math.min(Math.max((svgX / 640) * 100, 12), 75);
+      tooltip.style.left = `${pctX}%`;
+      tooltip.style.top = `${Math.max((svgY / 240) * 100 - 18, 4)}%`;
+    }
+
+    function hideThroughputTooltip() {
+      document.getElementById('throughput-tooltip').classList.add('hidden');
+    }
+
+    function renderDepartmentDonutChart() {
+      const svg = document.getElementById('department-donut-svg');
+      const legendEl = document.getElementById('department-legend');
+      const clearBtn = document.getElementById('btn-clear-dept-filter');
+
+      // Count protocols per department from live patient state + ward baseline weights
+      const baseWeights = { Cardiology: 48, Oncology: 37, Neurology: 27, Orthopedics: 20 };
+      const counts = { ...baseWeights };
+      appState.patients.forEach((p) => {
+        if (counts[p.department] !== undefined) counts[p.department] += 1;
+      });
+
+      const entries = Object.entries(counts);
+      const total = entries.reduce((acc, [, val]) => acc + val, 0);
+
+      const cx = 110;
+      const cy = 110;
+      const radius = 78;
+      const strokeWidth = 26;
+      const circumference = 2 * Math.PI * radius;
+
+      let cumulativePercent = 0;
+      let svgHtml = `
+        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="#f1f5f9" stroke-width="${strokeWidth}" />
+      `;
+      let legendHtml = '';
+
+      entries.forEach(([dept, count]) => {
+        const pct = count / total;
+        const pctRounded = Math.round(pct * 100);
+        const dashArray = `${pct * circumference} ${circumference}`;
+        const dashOffset = -cumulativePercent * circumference;
+        cumulativePercent += pct;
+
+        const color = DEPT_COLORS[dept]?.hex || '#0d9488';
+        const isSelected = appState.departmentFilter === dept;
+        const opacity = appState.departmentFilter === 'All' || isSelected ? '1' : '0.35';
+
+        svgHtml += `
+          <circle
+            cx="${cx}"
+            cy="${cy}"
+            r="${radius}"
+            fill="none"
+            stroke="${color}"
+            stroke-width="${isSelected ? strokeWidth + 4 : strokeWidth}"
+            stroke-dasharray="${dashArray}"
+            stroke-dashoffset="${dashOffset}"
+            transform="rotate(-90 ${cx} ${cy})"
+            style="opacity: ${opacity}; transition: all 0.25s ease;"
+            class="cursor-pointer hover:opacity-90"
+            onclick="toggleDepartmentFilter('${dept}')"
+          />
+        `;
+
+        legendHtml += `
+          <button
+            type="button"
+            onclick="toggleDepartmentFilter('${dept}')"
+            class="w-full flex items-center justify-between px-3 py-2 rounded-xl border text-left transition-all cursor-pointer ${
+              isSelected
+                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                : 'bg-slate-50/80 hover:bg-slate-100 text-slate-700 border-slate-200/70'
+            }"
+          >
+            <span class="flex items-center gap-2 text-xs font-semibold">
+              <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${color}"></span>
+              ${dept}
+            </span>
+            <span class="font-mono text-xs font-bold ${isSelected ? 'text-teal-300' : 'text-slate-600'}">
+              ${pctRounded}%
+            </span>
+          </button>
+        `;
+      });
+
+      // Center Donut Label
+      const activeLabel = appState.departmentFilter === 'All' ? 'Total Active' : appState.departmentFilter;
+      const activeValue = appState.departmentFilter === 'All' ? total : counts[appState.departmentFilter];
+
+      svgHtml += `
+        <text x="${cx}" y="${cy - 4}" text-anchor="middle" fill="#0f172a" font-size="22" font-weight="700" font-family="JetBrains Mono, monospace">${activeValue}</text>
+        <text x="${cx}" y="${cy + 14}" text-anchor="middle" fill="#64748b" font-size="10" font-weight="600">${activeLabel}</text>
+      `;
+
+      svg.innerHTML = svgHtml;
+      legendEl.innerHTML = legendHtml;
+
+      if (appState.departmentFilter !== 'All') {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    function toggleDepartmentFilter(dept) {
+      appState.departmentFilter = appState.departmentFilter === dept ? 'All' : dept;
+      renderDepartmentDonutChart();
+      renderTreatmentTable();
+    }
+
+    function setDepartmentFilter(dept) {
+      appState.departmentFilter = dept;
+      renderDepartmentDonutChart();
+      renderTreatmentTable();
+    }
+
+    // -------------------------------------------------------------------------
+    // F. TREATMENT TABLE FILTERING, SEARCH & RENDERING
+    // -------------------------------------------------------------------------
+    function handleSearchInput(val) {
+      appState.searchQuery = val.trim().toLowerCase();
+      const clearBtn = document.getElementById('btn-clear-search');
+      if (appState.searchQuery.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderTreatmentTable();
+    }
+
+    function clearSearchInput() {
+      const input = document.getElementById('table-search-input');
+      input.value = '';
+      handleSearchInput('');
+    }
+
+    function setStatusFilter(status) {
+      appState.statusFilter = status;
+      document.querySelectorAll('.status-tab').forEach((tab) => {
+        const isMatch = tab.getAttribute('data-status') === status;
+        if (isMatch) {
+          tab.className = 'status-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition-all whitespace-nowrap cursor-pointer';
+        } else {
+          tab.className = 'status-tab px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-all whitespace-nowrap cursor-pointer';
+        }
+      });
+      renderTreatmentTable();
+    }
+
+    function resetAllTableFilters() {
+      clearSearchInput();
+      setStatusFilter('All');
+      setDepartmentFilter('All');
+    }
+
+    function getStatusBadgeHtml(status) {
+      const map = {
+        'Critical':    'bg-rose-50 text-rose-700 border-rose-200 ring-1 ring-rose-500/15',
+        'In Progress': 'bg-teal-50 text-teal-700 border-teal-200',
+        'Scheduled':   'bg-amber-50 text-amber-800 border-amber-200',
+        'Discharged':  'bg-emerald-50 text-emerald-700 border-emerald-200'
+      };
+      const dotMap = {
+        'Critical':    'bg-rose-500 animate-clinical-pulse',
+        'In Progress': 'bg-teal-500',
+        'Scheduled':   'bg-amber-500',
+        'Discharged':  'bg-emerald-500'
+      };
+      const cls = map[status] || 'bg-slate-100 text-slate-700 border-slate-200';
+      const dot = dotMap[status] || 'bg-slate-400';
+
+      return `
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${cls} whitespace-nowrap">
+          <span class="w-1.5 h-1.5 rounded-full ${dot}"></span>
+          ${status}
+        </span>
+      `;
+    }
+
+    function renderTreatmentTable() {
+      const tbody = document.getElementById('treatment-table-body');
+      const emptyState = document.getElementById('table-empty-state');
+      const deptPill = document.getElementById('active-dept-pill');
+
+      if (appState.departmentFilter !== 'All') {
+        deptPill.textContent = `Dept: ${appState.departmentFilter}`;
+        deptPill.classList.remove('hidden');
+      } else {
+        deptPill.classList.add('hidden');
+      }
+
+      const filtered = appState.patients.filter((p) => {
+        const matchesStatus = appState.statusFilter === 'All' || p.status === appState.statusFilter;
+        const matchesDept = appState.departmentFilter === 'All' || p.department === appState.departmentFilter;
+        const q = appState.searchQuery;
+        const matchesQuery =
+          !q ||
+          p.name.toLowerCase().includes(q) ||
+          p.mrn.toLowerCase().includes(q) ||
+          p.diagnosis.toLowerCase().includes(q) ||
+          p.protocol.toLowerCase().includes(q) ||
+          p.doctor.toLowerCase().includes(q) ||
+          p.department.toLowerCase().includes(q);
+        return matchesStatus && matchesDept && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      tbody.innerHTML = filtered
+        .map((p) => {
+          const adherence = getPatientAdherence(p);
+          const deptTheme = DEPT_COLORS[p.department] || DEPT_COLORS.Cardiology;
+          const barColor = adherence >= 80 ? 'bg-teal-500' : adherence >= 50 ? 'bg-amber-500' : 'bg-rose-500';
+
+          return `
+            <tr
+              onclick="openPatientDrawer('${p.id}')"
+              class="hover:bg-teal-50/40 transition-colors cursor-pointer group"
+            >
+              <td class="py-3.5 px-4 sm:px-5">
+                <div class="font-semibold text-slate-900 group-hover:text-teal-700 transition-colors">${p.name}</div>
+                <div class="flex items-center gap-2 mt-0.5">
+                  <span class="font-mono text-[11px] text-slate-500">${p.mrn}</span>
+                  <span class="text-[11px] text-slate-400">• ${p.demographics.split('•')[0].trim()}</span>
+                </div>
+              </td>
+              <td class="py-3.5 px-4">
+                <div class="font-medium text-slate-800">${p.diagnosis}</div>
+                <span class="inline-block mt-1 text-[11px] font-semibold px-2 py-0.5 rounded-md border ${deptTheme.bg} ${deptTheme.text} ${deptTheme.border}">
+                  ${p.department}
+                </span>
+              </td>
+              <td class="py-3.5 px-4">
+                <div class="text-xs font-medium text-slate-700 max-w-xs">${p.protocol}</div>
+              </td>
+              <td class="py-3.5 px-4">
+                <div class="flex items-center gap-2.5 min-w-[110px]">
+                  <div class="w-16 h-2 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full ${barColor} rounded-full transition-all duration-300" style="width: ${adherence}%"></div>
+                  </div>
+                  <span class="font-mono text-xs font-semibold text-slate-700">${adherence}%</span>
+                </div>
+              </td>
+              <td class="py-3.5 px-4 whitespace-nowrap text-xs font-medium text-slate-600">
+                ${p.doctor}
+              </td>
+              <td class="py-3.5 px-4 whitespace-nowrap">
+                ${getStatusBadgeHtml(p.status)}
+              </td>
+              <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                <button
+                  type="button"
+                  onclick="event.stopPropagation(); openPatientDrawer('${p.id}')"
+                  class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-teal-700 bg-teal-50/80 group-hover:bg-teal-600 group-hover:text-white transition-colors"
+                >
+                  <span>Inspect</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // G. PHARMACY & ORDERS PANEL RENDERER
+    // -------------------------------------------------------------------------
+    function renderPharmacyOrdersPanel() {
+      const container = document.getElementById('pharmacy-orders-list');
+      const pendingOrders = [];
+
+      appState.patients.forEach((p) => {
+        p.medications.forEach((m) => {
+          if (!m.given) {
+            pendingOrders.push({ patient: p, med: m });
+          }
+        });
+      });
+
+      if (pendingOrders.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-8 text-center text-xs text-slate-500 bg-slate-50 rounded-xl border border-slate-200/70">
+            All scheduled inpatient medication orders have been verified and administered!
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = pendingOrders
+        .map(
+          ({ patient, med }) => `
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Due ${med.time}</span>
+                  <span class="text-xs font-bold text-slate-900 truncate">${patient.name}</span>
+                  <span class="font-mono text-[11px] text-slate-400">${patient.mrn}</span>
+                </div>
+                <div class="text-xs font-medium text-slate-700 mt-1 truncate">${med.name}</div>
+              </div>
+              <button
+                type="button"
+                onclick="toggleMedicationDose('${patient.id}', '${med.id}')"
+                class="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-teal-600 hover:bg-teal-700 text-white transition-colors cursor-pointer"
+              >
+                Administer Dose
+              </button>
+            </div>
+          `
+        )
+        .join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // H. CLINICAL DETAIL SLIDE-OVER DRAWER LOGIC
+    // -------------------------------------------------------------------------
+    function openPatientDrawer(patientId) {
+      appState.selectedPatientId = patientId;
+      const patient = appState.patients.find((p) => p.id === patientId);
+      if (!patient) return;
+
+      document.getElementById('drawer-mrn').textContent = patient.mrn;
+      document.getElementById('drawer-dept').textContent = `${patient.department} Service`;
+      document.getElementById('drawer-patient-name').textContent = patient.name;
+      document.getElementById('drawer-demographics').textContent = patient.demographics;
+      document.getElementById('drawer-diagnosis').textContent = patient.diagnosis;
+      document.getElementById('drawer-protocol').textContent = patient.protocol;
+      document.getElementById('drawer-status-select').value = patient.status;
+
+      document.getElementById('vital-bp').textContent = patient.vitals.bp;
+      document.getElementById('vital-hr').textContent = patient.vitals.hr;
+      document.getElementById('vital-spo2').textContent = patient.vitals.spo2;
+      document.getElementById('vital-temp').textContent = patient.vitals.temp;
+
+      renderDrawerMedications(patient);
+      renderDrawerNotes(patient);
+
+      document.getElementById('patient-drawer-overlay').classList.remove('hidden');
+    }
+
+    function closePatientDrawer() {
+      appState.selectedPatientId = null;
+      document.getElementById('patient-drawer-overlay').classList.add('hidden');
+    }
+
+    function renderDrawerMedications(patient) {
+      const adherence = getPatientAdherence(patient);
+      document.getElementById('drawer-adherence-badge').textContent = `${adherence}% Adherence`;
+
+      const listEl = document.getElementById('drawer-meds-list');
+      listEl.innerHTML = patient.medications
+        .map(
+          (m) => `
+            <label class="flex items-center justify-between gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+              m.given
+                ? 'bg-teal-50/50 border-teal-200/80 text-slate-800'
+                : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
+            }">
+              <div class="flex items-center gap-3 min-w-0">
+                <input
+                  type="checkbox"
+                  ${m.given ? 'checked' : ''}
+                  onchange="toggleMedicationDose('${patient.id}', '${m.id}')"
+                  class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300 cursor-pointer"
+                />
+                <div class="min-w-0">
+                  <div class="text-xs font-semibold ${m.given ? 'line-through text-slate-500' : 'text-slate-900'}">${m.name}</div>
+                  <div class="text-[11px] font-mono text-slate-400">Scheduled: ${m.time}</div>
+                </div>
+              </div>
+              <span class="shrink-0 text-[11px] font-semibold px-2 py-0.5 rounded-md ${
+                m.given ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+              }">
+                ${m.given ? 'Administered' : 'Due'}
+              </span>
+            </label>
+          `
+        )
+        .join('');
+    }
+
+    function toggleMedicationDose(patientId, medId) {
+      const patient = appState.patients.find((p) => p.id === patientId);
+      if (!patient) return;
+
+      const med = patient.medications.find((m) => m.id === medId);
+      if (!med) return;
+
+      med.given = !med.given;
+
+      // Re-render affected components in real time
+      if (appState.selectedPatientId === patientId) {
+        renderDrawerMedications(patient);
+      }
+      updateKPIsAndBadges();
+      renderTreatmentTable();
+      if (appState.activeNav === 'pharmacy') {
+        renderPharmacyOrdersPanel();
+      }
+
+      showToast(
+        med.given
+          ? `Verified administration: ${med.name}`
+          : `Reverted dose status: ${med.name}`
+      );
+    }
+
+    function updatePatientStatus(newStatus) {
+      const patient = appState.patients.find((p) => p.id === appState.selectedPatientId);
+      if (!patient) return;
+
+      patient.status = newStatus;
+      updateKPIsAndBadges();
+      renderTreatmentTable();
+      showToast(`Updated ${patient.name}'s acuity status to ${newStatus}`);
+    }
+
+    function renderDrawerNotes(patient) {
+      const notesEl = document.getElementById('drawer-notes-list');
+      notesEl.innerHTML = patient.notes
+        .map(
+          (n) => `
+            <div class="p-3 rounded-xl bg-white border border-slate-200/90 text-xs">
+              <div class="flex items-center justify-between text-[11px] text-slate-500 mb-1">
+                <span class="font-bold text-slate-800">${n.author}</span>
+                <span class="font-mono">${n.time}</span>
+              </div>
+              <p class="text-slate-700 leading-relaxed">${n.text}</p>
+            </div>
+          `
+        )
+        .join('');
+    }
+
+    function handleAddClinicalNote(e) {
+      e.preventDefault();
+      const input = document.getElementById('new-clinical-note-input');
+      const text = input.value.trim();
+      if (!text || !appState.selectedPatientId) return;
+
+      const patient = appState.patients.find((p) => p.id === appState.selectedPatientId);
+      if (!patient) return;
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      patient.notes.unshift({
+        author: 'Dr. Claire Moreau, MD',
+        time: timeStr,
+        text
+      });
+
+      input.value = '';
+      renderDrawerNotes(patient);
+      showToast('Signed clinical progress note appended to EHR');
+    }
+
+    // -------------------------------------------------------------------------
+    // I. '+ ASSIGN TREATMENT' MODAL LOGIC
+    // -------------------------------------------------------------------------
+    function openAssignModal() {
+      document.getElementById('assign-treatment-modal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('input-patient-name').focus(), 50);
+    }
+
+    function closeAssignModal() {
+      document.getElementById('assign-treatment-modal').classList.add('hidden');
+    }
+
+    function handleAssignTreatmentSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('input-patient-name').value.trim();
+      const demo = document.getElementById('input-patient-demo').value.trim();
+      const department = document.getElementById('input-department').value;
+      const status = document.getElementById('input-status').value;
+      const diagnosis = document.getElementById('input-diagnosis').value.trim();
+      const protocol = document.getElementById('input-protocol').value.trim();
+      const doctor = document.getElementById('input-doctor').value;
+      const initialMed = document.getElementById('input-initial-med').value.trim();
+
+      const randomMrnNum = Math.floor(88500 + Math.random() * 490);
+      const newPatient = {
+        id: `PT-${Date.now()}`,
+        mrn: `MRN-${randomMrnNum}`,
+        name,
+        demographics: `${demo} • Blood Type O+ • Telemetry Unit`,
+        department,
+        diagnosis,
+        protocol,
+        doctor,
+        status,
+        vitals: { bp: '126/80', hr: '82', spo2: '98%', temp: '36.8°C' },
+        medications: [
+          { id: 'm-init-1', name: initialMed, time: 'Stat / Now', given: true },
+          { id: 'm-init-2', name: 'Baseline Telemetry & Lab Panel', time: '+2 hrs', given: false }
+        ],
+        notes: [
+          {
+            author: 'Dr. Claire Moreau, MD',
+            time: 'Just now',
+            text: `Initiated inpatient protocol: ${protocol} for ${diagnosis}.`
+          }
+        ]
+      };
+
+      // Prepend new treatment to top of live registry
+      appState.patients.unshift(newPatient);
+      // Increment today's admission bar in the 7-day telemetry chart
+      appState.weeklyTelemetry[appState.weeklyTelemetry.length - 1].admissions += 1;
+
+      e.target.reset();
+      closeAssignModal();
+      renderAll();
+      showToast(`Assigned ${protocol} to ${name} (${newPatient.mrn})`);
+    }
+
+    // -------------------------------------------------------------------------
+    // J. TOAST NOTIFICATION & INITIAL BOOTSTRAP
+    // -------------------------------------------------------------------------
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('clinical-toast');
+      const msgEl = document.getElementById('clinical-toast-message');
+      msgEl.textContent = msg;
+
+      toast.classList.remove('opacity-0', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 3200);
+    }
+
+    function renderAll() {
+      updateKPIsAndBadges();
+      renderHybridThroughputChart();
+      renderDepartmentDonutChart();
+      renderTreatmentTable();
+      if (appState.activeNav === 'pharmacy') {
+        renderPharmacyOrdersPanel();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAll();
+    });
+  </script>
+</body>
+</html>
