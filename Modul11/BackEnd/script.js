@@ -295,7 +295,7 @@ commentForm.addEventListener("submit", async (e) => {
 });
 
 // Event delegasi untuk semua elemen untuk menghapus konten diri
-commentContainer.addEventListener("delete-comment", async (e) => {
+commentContainer.addEventListener("hapus-komen", async (e) => {
   // Aksi untuk mencegah double klik pada tombol
   if (eventJalan) return;
 

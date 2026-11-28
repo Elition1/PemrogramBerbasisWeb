@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk — Blog Belajar Web (Modul 13)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="halaman-login">
+  <main>
+    <h1>Masuk</h1>
+    <form id="form-login" novalidate>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" autocomplete="username" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+      <label class="ingat">
+        <input type="checkbox" id="ingat" name="ingat"> Ingat saya di perangkat ini
+      </label>
+
+      <button type="submit">Masuk</button>
+      <p id="pesan" role="alert" aria-live="polite"></p>
+    </form>
+    <p class="petunjuk">Akun uji (API latihan): <code>emilys</code> / <code>emilyspass</code></p>
+  </main>
+
+  <script src="auth.js"></script>
+  <script>
+    "use strict";
+
+    // Sudah login? Langsung ke halaman utama.
+    if (sudahLogin()) location.replace("index.html");
+
+    // Terapkan tema yang tersimpan (Modul 3 + 6)
+    if (localStorage.getItem("tema") === "dark") document.body.classList.add("dark-mode");
+
+    const form = document.querySelector("#form-login");
+    const pesan = document.querySelector("#pesan");
+
+    // Dialihkan dari halaman lain karena token ditolak / habis
+    if (new URLSearchParams(location.search).get("sesi") === "habis") {
+      pesan.textContent = "Sesi berakhir, silakan masuk lagi.";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = form.username.value.trim();
+      const password = form.password.value;
+
+      if (username === "" || password === "") {
+        pesan.textContent = "Username dan password wajib diisi.";
+        return;
+      }
+
+      const tombol = form.querySelector("button[type='submit']");
+      tombol.disabled = true;                 // cegah kirim ganda
+      pesan.textContent = "Memproses...";
+      try {
+        await login(username, password, form.ingat.checked);
+        location.href = "index.html";
+      } catch (error) {
+        // Kegagalan jaringan (TypeError) dibedakan dari kredensial salah
+        pesan.textContent = error instanceof TypeError
+          ? "Tidak dapat terhubung ke server. Periksa koneksi Anda."
+          : error.message;
+        tombol.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

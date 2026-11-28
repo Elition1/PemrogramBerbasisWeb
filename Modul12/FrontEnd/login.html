@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Login</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css"> 
+    </head>
+    <body>
+        <div class="body-web">
+            <tombol-tema></tombol-tema>
+            <h1>
+                Login
+            </h1>
+            <form id="form-login">
+                <label>Username : <input id="username" required> </label>
+                <label>Password : <input id="password" type="password" required> </label>
+                <button type="submit"> Submit </button> 
+                
+                <label>Ingat Saya :  </label>
+                <input type="checkbox" id="ingat" name="ingat">
+            </form>        
+            <p id="pesan-alert" role="alert"></p>
+        </div>
+        <script src="../BackEnd/auth.js"></script>
+        <script>
+            "use strict";
+
+            const token = ambilToken();
+            if (sudahLogin()) location.replace("index.html");
+
+            if(localStorage.getItem("tema") === "dark") document.body.classList.add("dark-mode");
+
+            const form = document.getElementById("form-login");
+            const pesan = document.getElementById("pesan-alert");
+
+            if (new URLSearchParams(location.search).get("sesi") === "habis") {
+                pesan.textContent = "Sesi Berakhir, Silahkan Masuk Lagi"
+            }
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const nama = document.getElementById("username").value.trim();
+                const pass = document.getElementById("password").value;
+
+                if (nama === "" || pass === "") {
+                    pesan.textContent = "Username dan Password harus wajib diisi";
+                    return;
+                }
+
+                const tombol = form.querySelector("button[type='submit']");
+
+                tombol.disabled = true;
+
+                pesan.textContent = "...Sedang Proses";
+
+                try {
+                    await tryLogin(nama, pass, form.ingat.checked);
+                    location.href = "index.html";
+                } catch (error) {
+                    pesan.textContent = error instanceof TypeError ? "Tidak dapat terhubung pada server, Coba Lagi" : error.message;
+                    tombol.disabled = false;
+                }
+            })
+        </script>
+    </body>
+</html>
