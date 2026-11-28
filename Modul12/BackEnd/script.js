@@ -295,7 +295,7 @@ commentForm.addEventListener("submit", async (e) => {
 });
 
 // Event delegasi untuk semua elemen untuk menghapus konten diri
-commentContainer.addEventListener("delete-comment", async (e) => {
+commentContainer.addEventListener("hapus-komen", async (e) => {
   // Aksi untuk mencegah double klik pada tombol
   if (eventJalan) return;
 
@@ -710,6 +710,9 @@ async function muatProfil() {
     const user = await res.json();
 
     document.getElementById("sapaan").textContent = `Hallo ${user.username}!`;
+    document.getElementById("email-akun").textContent = user.email;
+    document.getElementById("foto-profil").src = user.image;
+
 }
 
 muatProfil().catch(console.error);
